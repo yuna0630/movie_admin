@@ -10,7 +10,9 @@
             *, (select count(*) from  movie_info where mi_genre_seq = genre_seq) as genre_count
         from
             genre_info
-        limit 20 offset #{offset}
+        <if test="offset != null">
+            limit 20 offset #{offset}
+        </if>
     </select>
     <select id="getGenrePageCnt" resultType="java.lang.Integer">
         select ceil(count(*)/20) from genre_info

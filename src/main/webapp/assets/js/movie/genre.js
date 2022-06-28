@@ -64,7 +64,7 @@ $(function(){
     $("#cancel").click(function(){
         if(!confirm("취소하시겠습니까?")) return;
         $(".insert_data_area").hide();
-        $("#genre_name").val("");
+        $("#genre_name").val("");  
         $(".before").html("");
     })
 })

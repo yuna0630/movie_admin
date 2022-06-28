@@ -9,7 +9,7 @@
     <title>Document</title>
     <script src="/assets/js/common/util.js"></script>
     <script src="/assets/js/movie/genre.js"></script>
-    <link rel="stylesheet" href="/assets/css/genre.css">
+    <link rel="stylesheet" href="/assets/css/movie/genre.css">
 </head>
 <body>
     <main>

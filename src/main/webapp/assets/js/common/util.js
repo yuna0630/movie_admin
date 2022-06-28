@@ -1,17 +1,3 @@
-// $("#mi_birth").datepicker({
-//     dateFormat:"yy-mm-dd",
-//     monthNames:["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
-//     monthNamesShort:["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
-//     dayNames:["일","월","화","수","목","금","토"],
-//     dayNamesShort:["일","월","화","수","목","금","토"],
-//     dayNamesMin:["일","월","화","수","목","금","토"],
-//     yearSuffix:"년",
-//     showMonthAfterYear: true,
-//     changeYear:true,
-//     changeMonth:true,
-// });
-
-
 function dateValidate(dt) {
     var regex = /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/g;
     return regex.test(dt);
@@ -46,3 +32,18 @@ function makeDateString(date) {
 function leadingZero(n) {
     return n<10?"0"+n:n;
 }
+
+
+
+// $("#mi_birth").datepicker({
+//     dateFormat:"yy-mm-dd",
+//     monthNames:["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
+//     monthNamesShort:["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
+//     dayNames:["일","월","화","수","목","금","토"],
+//     dayNamesShort:["일","월","화","수","목","금","토"],
+//     dayNamesMin:["일","월","화","수","목","금","토"],
+//     yearSuffix:"년",
+//     showMonthAfterYear: true,
+//     changeYear:true,
+//     changeMonth:true,
+// });

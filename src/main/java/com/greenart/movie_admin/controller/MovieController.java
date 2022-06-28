@@ -22,5 +22,13 @@ public class MovieController {
         model.addAttribute("pageCount", movie_mapper.getGenrePageCnt());
         return "/movie/genre";
     }
-    
+    @GetMapping("/list")
+    public String getMovieList(Model model) {
+        return "/movie/list";
+    }
+    @GetMapping("/add")
+    public String getMovieAdd(Model model) {
+        model.addAttribute("genreList", movie_mapper.getGenreList(null));
+        return "/movie/form";
+    }
 }

@@ -2,5 +2,42 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.greenart.movie_admin.mapper.ActorMapper">
-
+    <select id="selectCinemaActorList" resultType="com.greenart.movie_admin.data.actor.CinemaActorListVO">
+        select a.*, b.cap_file_name as photo from cinema_actor_info a left outer join
+            (
+                select * from cinema_actor_photo 
+                group by cap_cai_seq
+            ) b on 
+        a.cai_seq = b.cap_cai_seq
+        where cai_name like '%${keyword}%'
+        <if test="country != null">
+        and cai_country = #{country}
+        </if>
+        limit 10 offset #{offset};
+    </select>
+    <select id="selectActorListPageCount" resultType="java.lang.Integer">
+        select ceil(count(*)/10) from cinema_actor_info
+        where cai_name like '%${keyword}%'
+        <if test="country != null">
+        and cai_country = #{country}
+        </if>
+    </select>
+    <select id ="selectActorCountryList" resultType="java.lang.String">
+        select distinct cai_country from cinema_actor_info
+    </select>
+    <insert id="inserActorInfo"
+    parameterType="com.greenart.movie_admin.data.actor.CinemaActorInfoVO" 
+    useGeneratedKeys="true" keyProperty="cai_seq">
+        insert into cinema_actor_info(cai_name, cai_country)
+        values 
+        (#{cai_name}, #{cai_country})
+    </insert>
+    <insert id="insetActorImages">
+        INSERT INTO cinema_actor_photo
+        (cap_cai_seq, cap_file_name)
+        VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.cap_cai_seq}, #{item.cap_file_name})
+        </foreach>  
+    </insert>
 </mapper>
