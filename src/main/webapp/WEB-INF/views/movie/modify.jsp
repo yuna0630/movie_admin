@@ -1,12 +1,13 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%-- <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%> --%>
 <%@include file="/WEB-INF/includes/header.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
-    <link rel="stylesheet" href="/assets/css/header.css">
-    <script src="/assets/js/movie/add.js"></script>
+    <script src="/assets/js/movie/modify.js"></script>
+    <link rel="stylesheet" href="/assets/css/movie/form.css">
 </head>
 <body>
     <main>

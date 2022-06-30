@@ -50,9 +50,9 @@ public class MovieController {
         model.addAttribute("movieInfo", movie_mapper.selectMovieInfoBySeq(movie_no));
         model.addAttribute("imgList", movie_mapper.selectMovieImagesBySeq(movie_no));
         model.addAttribute("videoList", movie_mapper.selectMovieTrailerVideoBySeq(movie_no));
+        
         model.addAttribute("descList", movie_mapper.selectMovieDescriptionBySeq(movie_no));
 
-
-        return "/movie/form";
+        return "/movie/detail";
     }
 }
