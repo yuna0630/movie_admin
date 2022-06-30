@@ -15,4 +15,7 @@ public class MovieInfoVO {
     private Integer mi_year;
     private Date mi_opening_dt;
     private Integer mi_running_time;
+
+    private String genre_name;
+    private String poster_img;
 }

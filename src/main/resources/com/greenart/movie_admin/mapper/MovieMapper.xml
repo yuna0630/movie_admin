@@ -26,5 +26,119 @@
     <delete id="deleteGenreInfo">
         delete from genre_info where genre_seq = #{seq}
     </delete>
+    <insert id="insertMovieInfo"
+        parameterType="com.greenart.movie_admin.data.movie.MovieInfoVO"  
+        useGeneratedKeys="true" keyProperty="mi_seq">
+        INSERT INTO movie_info
+        (mi_genre_seq, mi_title, mi_viewing_age, mi_showing_status, mi_country, mi_year, mi_opening_dt, mi_running_time)
+        VALUES
+        (#{mi_genre_seq}, #{mi_title}, #{mi_viewing_age}, #{mi_showing_status}, #{mi_country}, #{mi_year}, #{mi_opening_dt}, #{mi_running_time})
+    </insert>
+    <insert id="insertMovieImage">
+        insert into movie_image(mimg_mi_seq, mimg_order, mimg_file_name, mimg_is_poster)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{seq}, 0 ,#{item}, 0)
+        </foreach>  
+    </insert>
+    <insert id="insertMovieStoryImg">
+        insert into movie_story_img(msi_mi_seq, msi_order, msi_file_name)
+        values
+        (#{seq},#{order},#{content})
+    </insert>
+    <insert id="insertMovieStoryText">
+        insert into movie_story_text(mst_mi_seq, mst_order, mst_content)
+        values
+        (#{seq},#{order},#{content})
+    </insert>
+    <insert id="insertMovieTrailerVideo">
+        insert into trailer_video_info(tvi_mi_seq,tvi_order,tvi_file_name)
+        values
+        <foreach collection="list" item="item" separator=",">
+        (#{seq}, #{item.order} ,#{item.originFileName})
+        </foreach>
+    </insert>
+    <select id="selectMovieList" resultType="com.greenart.movie_admin.data.movie.MovieInfoVO">
+        select a.*,b.genre_name ,c.mimg_file_name as poster_img
+        from movie_info a left outer join genre_info b
+        on a.mi_genre_seq = b.genre_seq
+        left outer join 
+        (
+            select * from movie_image where mimg_is_poster =1
+        )c on a.mi_seq = c.mimg_mi_seq
+        where mi_title like '%${keyword}%'
+        <if test="country != null">
+            and mi_country = #{country}
+        </if>
+        limit 10 offset 0
+    </select>
+    <select id="selectMoviePageCnt" resultType="java.lang.Integer">
+        select ceil(count(*)/10) from movie_info where mi_title like '%${keyword}%'
+        <if test="country != null">
+            and mi_country = #{country}
+        </if>
+    </select>
+    <select id="selectMovieInfoBySeq" resultType="com.greenart.movie_admin.data.movie.MovieInfoVO">
+        select * from movie_info where mi_seq = #{seq}
+    </select>
+    <select id="selectMovieImagesBySeq" resultType="com.greenart.movie_admin.data.movie.MovieImageVO">
+        select * from movie_image where mimg_mi_seq = #{seq}
+    </select>
+    <select id="selectMovieTrailerVideoBySeq" resultType="com.greenart.movie_admin.data.movie.TrailerVideoVO">
+        select * from trailer_video_info where tvi_mi_seq = #{seq}
+    </select>
+    <select id="selectMovieDescriptionBySeq" resultType="com.greenart.movie_admin.data.movie.request.MovieDescriptionVO">
+        select * from (
+            select 
+            msi_seq as seq,
+            msi_mi_seq  as mi_seq,
+            msi_order as n_order,
+            msi_file_name as content,
+            'img' as type
+            from movie_story_img
+            union all
+            select *, 'text' as type from movie_story_text
+        )a 	
+        where mi_seq = #{seq}	
+        order by n_order asc
+    </select>
+    <delete id="deleteMovieTrailerInfo">
+        delete from trailer_video_info where tvi_seq = #{seq}
+    </delete>
+    <delete id="deleteMovieImageInfo">
+        delete from movie_image where mimg_seq = #{seq}
+    </delete>
+    <delete id="deleteMovieStoryTextInfo">
+        delete from movie_story_text where mst_seq = #{seq}
+    </delete>
+    <delete id="deleteMovieStoryImageInfo">
+        delete from movie_story_img where msi_seq = #{seq}
+    </delete>
+    <insert id="insertMovieTrailerInfo"  parameterType="com.greenart.movie_admin.data.movie.TrailerVideoVO"  
+        useGeneratedKeys="true" keyProperty="tvi_seq">
+        INSERT INTO trailer_video_info
+        (tvi_mi_seq, tvi_order, tvi_file_name)
+        VALUES(#{tvi_mi_seq}, #{tvi_order}, #{tvi_file_name});
+    </insert>
+    <insert id="insertMovieImageInfo" parameterType="com.greenart.movie_admin.data.movie.MovieImageVO"  
+        useGeneratedKeys="true" keyProperty="mimg_seq">
+        INSERT INTO movie_image
+        (mimg_mi_seq, mimg_order, mimg_file_name, mimg_is_poster)
+        VALUES(#{mimg_mi_seq}, #{mimg_order}, #{mimg_file_name}, 1);
+    </insert>
+    <insert id="insertMovieStoryTextInfo" parameterType="com.greenart.movie_admin.data.movie.MovieStoryTextVO"  
+        useGeneratedKeys="true" keyProperty="mst_seq">
+        INSERT INTO movie_story_text
+        (mst_mi_seq, mst_order, mst_file_name)
+        VALUES(#{mst_mi_seq}, #{mst_order}, #{mst_file_name});
+    </insert>
+    <insert id="insertMovieStoryImageInfo" parameterType="com.greenart.movie_admin.data.movie.MovieStoryImgVO"  
+        useGeneratedKeys="true" keyProperty="msi_seq">
+        INSERT INTO movie_story_img
+        (msi_mi_seq, msi_order, msi_file_name)
+        VALUES(#{msi_mi_seq}, #{msi_order}, #{msi_file_name});
+    </insert>
+
+
 
 </mapper>
