@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.greenart.movie_admin.data.movie.MovieImageVO;
 import com.greenart.movie_admin.data.movie.MovieInfoVO;
 import com.greenart.movie_admin.data.movie.TrailerVideoVO;
 import com.greenart.movie_admin.data.movie.request.MovieAddRequest;
@@ -133,6 +134,16 @@ public class MovieAPIController {
         }
         return m;
     }
+    @PutMapping("/add/image")
+    public Map<String, Object> putMovieImage(@RequestBody MovieImageVO data) {
+        Map<String, Object> m = new LinkedHashMap<String, Object>();
+        movie_mapper.insertMovieImageInfo(data);
+        m.put("status", true);
+        m.put("seq", data.getMimg_seq());
+        m.put("message","영화 이미지 정보를 저장했습니다.");
+        return m;
+    }
+
     @PutMapping("/add/trailer")
     public Map<String, Object> putMovieTrailer(@RequestBody TrailerVideoVO data) {
         Map<String, Object> m = new LinkedHashMap<String, Object>();

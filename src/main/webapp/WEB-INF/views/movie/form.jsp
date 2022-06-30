@@ -181,7 +181,8 @@
                     <c:if test="${item.type == 'text'}">
                         <div class="desc_text_box">
                             <textarea cols="30" rows="10" id="text${item.n_order}" onkeyup="saveDescText('${item.n_order}')">${item.content}</textarea>
-                            <button class="desc_text_del" onclick="deleteDescText('${item.n_order}')">삭제</button>
+                            <button class="desc_text_save" onclick="saveDescText('${item.n_order}')">저장</button>
+                            <button class="desc_text_del" onclick="deleteDescText('${item.n_order}', '${item.seq}')">삭제</button>
                         </div>
                     </c:if>
                 </c:forEach>
