@@ -53,6 +53,6 @@ public class MovieController {
         
         model.addAttribute("descList", movie_mapper.selectMovieDescriptionBySeq(movie_no));
 
-        return "/movie/detail";
+        return "/movie/form";
     }
 }

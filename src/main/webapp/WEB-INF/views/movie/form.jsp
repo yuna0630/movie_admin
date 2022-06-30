@@ -47,7 +47,6 @@
                     });
                 </script>
             </c:forEach>
-        <script src="/assets/js/movie/modify.js"></script>
     </c:if>
     <link rel="stylesheet" href="/assets/css/movie/form.css">
 </head>
