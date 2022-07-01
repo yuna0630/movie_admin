@@ -1,12 +1,12 @@
 let movie_imgs = new Array();
 let movie_desc_list = new Array();
 let movie_trailer_list = new Array();
-
 $(function() {
     $("#movie_img_select").change(function() {
         let form = $("#movie_img_form");
         let formData = new FormData(form[0]);
         if($(this).val() == '' || $(this).val() == null ) return;
+        
         $.ajax({
             url:"/images/upload/movie",
             type:"put",
@@ -14,7 +14,6 @@ $(function() {
             contentType:false,
             processData:false,
             success:function(result) {
-                console.log(result)
                 if(!result.message) {
                     alert(result.message);
                     return;
@@ -33,10 +32,11 @@ $(function() {
                             let tag = 
                             '<div class="movie_img" filename ="'+result.file+'">'+
                                 '<img src="/images/movie/'+result.file+'">'+
-                                '<button onclick=deleteImg("'+result.file+'")>&times;</button>'+
+                                '<button onclick="deleteImg(\''+result.file+'\', '+r.seq+')">&times;</button>'+
                             '</div>';
-                            movie_imgs.push(result.file);
+                            movie_imgs.push({seq:r.seq, filename:result.file});
                             $(".movie_image_list").append(tag);
+                            $("#movie_img_select").val("");
                         }
                     })
                 },
@@ -101,29 +101,46 @@ $(function() {
             processData:false,
             success:function(result) {
                 console.log(result);
-                let split = $("#trailer_select").val().split("\\");
-                split = split[split.length-1].split(".");
-                let tag =
-                    '<tr>'+
-                        '<td>'+($("#trailer_file_table tbody tr").length+1)+'</td>'+
-                        '<td>'+split[0]+'</td>'+
-                        '<td>'+result.ext+'</td>'+
-                        '<td>'+result.fileSize.toLocaleString()+'Bytes'+'</td>'+
-                        '<td>'+
-                            '<button class="delete_trailer" onclick=deleteTrailer("'+result.file+'")>삭제</button>'+
-                        '</td>'+
-                    '</tr>';
-                    let trailer_order =$("#trailer_file_table tbody tr").length+1;
-                movie_trailer_list.push(
-                    {
-                        order: trailer_order,
-                        file:result.file,
-                        ext:result.ext,
-                        fileSize:result.fileSize,
-                        originFileName:split[0]
+                    
+                    let trailerData = {
+                        tvi_mi_seq:movie_seq,
+                        tvi_order:0,
+                        tvi_file_name:result.file
                     }
-                );
-                $("#trailer_file_table tbody").append(tag);
+
+                    $.ajax({
+                        url:"/api/movie/add/trailer",
+                        type:"put",
+                        contentType:"application/json",
+                        data:JSON.stringify(trailerData),
+                        success:function(r) {
+                            console.log(r);
+                            let trailer_order =$("#trailer_file_table tbody tr").length+1;
+                            let split = $("#trailer_select").val().split("\\");
+                            split = split[split.length-1].split(".");
+                            movie_trailer_list.push(
+                            {
+                                seq:r.seq,
+                                order: trailer_order,
+                                file:result.file,
+                                ext:result.ext,
+                                fileSize:result.fileSize,
+                                originFileName:split[0]
+                            }
+                        );
+                        let tag =
+                            '<tr>'+
+                                '<td>'+($("#trailer_file_table tbody tr").length+1)+'</td>'+
+                                '<td>'+split[0]+'</td>'+
+                                '<td>'+result.ext+'</td>'+
+                                '<td>'+result.fileSize.toLocaleString()+'Bytes'+'</td>'+
+                                '<td>'+
+                                    '<button class="delete_trailer" onclick="deleteTrailer(\''+result.file+'\', '+r.seq+')">삭제</button>'+
+                                '</td>'+
+                            '</tr>';
+                            $("#trailer_file_table tbody").append(tag);
+                        }
+                    })
             }
         })
     })
@@ -148,11 +165,18 @@ function deleteTrailer(filename, seq) {
                         '<td>'+movie_trailer_list[i].ext+'</td>'+
                         '<td>'+movie_trailer_list[i].fileSize.toLocaleString()+'Bytes'+'</td>'+
                         '<td>'+
-                            '<button class="delete_trailer" onclick=deleteTrailer("'+movie_trailer_list[i].file+'")>삭제</button>'+
+                            '<button class="delete_trailer" onclick="deleteTrailer(\''+movie_trailer_list[i].file+'\', '+movie_trailer_list[i].seq+')">삭제</button>'+
                         '</td>'+
                     '</tr>';
                 $("#trailer_file_table tbody").append(tag);
             }
+            $.ajax({
+                url:"/api/movie/delete/trailer?seq="+seq,
+                type:"delete",
+                success:function(r) {
+                    console.log(r);
+                }
+            })
         }
     });
 }
@@ -165,19 +189,25 @@ function deleteImg(filename, seq){
         url:"/images/delete/movie/"+filename,
         type:"delete",
         success:function(result){
-            alert(result.message);
             if(result.status) {
-                movie_imgs = movie_imgs.filter((img)=>filename != img);
+                movie_imgs = movie_imgs.filter((img)=>filename != img.filename);
                 $(".movie_image_list").html("");
                 for(let i=0; i<movie_imgs.length; i++) {
                     let tag = 
                         '<div class="movie_img" filename ="'+movie_imgs[i].filename+'","'+movie_imgs[i].seq+'">'+
                             '<img src="/images/movie/'+movie_imgs[i].filename+'","'+movie_imgs[i].seq+'">'+
-                            '<button onclick=deleteImg("'+movie_imgs[i].filename+'","'+movie_imgs[i].seq+'")>&times;</button>'+
+                            '<button onclick="deleteImg(\''+movie_imgs[i].filename+'\', '+movie_imgs[i].seq+')">&times;</button>'+
                         '</div>';
                     $(".movie_image_list").append(tag);
                 }
             }
+            $.ajax({
+                url:"/api/movie/delete/movie_img?seq="+seq,
+                type:"delete",
+                success:function(r) {
+                    alert(r.message);
+                }
+            })
         }
     })
 }

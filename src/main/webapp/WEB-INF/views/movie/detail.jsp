@@ -20,7 +20,7 @@
         </script>
             <c:forEach items="${imgList}" var="item">
                 <script>
-                    movie_imgs.push({seq:'${item.mimg_seq}', filename:'${item.mimg_file_name}'});
+                    movie_imgs.push({seq:'${item.mimg_seq}', filename:'${item.mimg_file_name}'})
                 </script>
             </c:forEach>
             <c:forEach items="${videoList}" var="item">
@@ -122,7 +122,7 @@
                     <c:forEach items="${imgList}" var="img">
                         <div class="movie_img" filename ="${img.mimg_file_name}">
                             <img src="/images/movie/${img.mimg_file_name}">
-                            <button onclick="deleteImg('${img.mimg_file_name}')">&times;</button>
+                            <button onclick="deleteImg('${img.mimg_file_name}', '${img.mimg_seq}')">&times;</button>
                         </div>
                     </c:forEach>
                 </div>
@@ -181,10 +181,20 @@
                     <c:if test="${item.type == 'text'}">
                         <div class="desc_text_box">
                             <textarea cols="30" rows="10" id="text${item.n_order}" onkeyup="saveDescText('${item.n_order}')">${item.content}</textarea>
-                            <button class="desc_text_del" onclick="deleteDescText('${item.n_order}','${item.seq}')">삭제</button>
+                            <button class="desc_text_save" onclick="saveDescText('${item.n_order}')">저장</button>
+                            <button class="desc_text_del" onclick="deleteDescText('${item.n_order}', '${item.seq}')">삭제</button>
                         </div>
                     </c:if>
                 </c:forEach>
+                <!-- <div class="desc_img_box">
+                    <img src="http://placekitten.com/960/540">
+                    <button id="desc_img_del">삭제</button>
+                </div> -->
+                <!-- <div class="desc_text_box">
+                    <textarea cols="30" rows="10"></textarea>
+                    <button class="desc_text_del">삭제</button>
+                </div> -->
+
             </div>
         </div>
         <div class="button_area">
@@ -199,3 +209,4 @@
     </main>
 </body>
 </html>
+
