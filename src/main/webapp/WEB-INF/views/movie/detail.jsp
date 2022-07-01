@@ -18,46 +18,45 @@
             let viewing_age = '${movieInfo.mi_viewing_age}';
             let movie_status = '${movieInfo.mi_showing_status}';
         </script>
-            <c:forEach items="${imgList}" var="item">
-                <script>
-                    movie_imgs.push({seq:'${item.mimg_seq}', filename:'${item.mimg_file_name}'})
-                </script>
-            </c:forEach>
-            <c:forEach items="${videoList}" var="item">
-                <script>
-                    movie_trailer_list.push(
-                        {
-                            seq:'${item.tvi_seq}',
-                            order: '${item.tvi_order}',
-                            file:'${item.tvi_file_name}',
-                            ext:'-',
-                            fileSize:'-',
-                            originFileName:'${item.tvi_file_name}'
-                        }
-                    );
-                </script>
-            </c:forEach>
-            <c:forEach items="${descList}" var="item" varStatus="stat">
-                <textarea id="contentData${stat.count}" hidden>${item.content}</textarea>
-                <script>
-                        movie_desc_list.push({
-                        type:"${item.type}", 
-                        content:$("#contentData${stat.count}").val(), 
-                        order:"${item.n_order}"
-                    });
-                </script>
-            </c:forEach>
+        <c:forEach items="${imgList}" var="item">
+            <script>
+                movie_imgs.push({seq:'${item.mimg_seq}', filename:'${item.mimg_file_name}'})
+            </script>
+        </c:forEach>
+        <c:forEach items="${videoList}" var="item">
+            <script>
+                movie_trailer_list.push(
+                    {
+                        seq:'${item.tvi_seq}',
+                        order: '${item.tvi_order}',
+                        file:'${item.tvi_file_name}',
+                        ext:'-',
+                        fileSize:'-',
+                        originFileName:'${item.tvi_file_name}'
+                    }
+                );
+            </script>
+        </c:forEach>
+        <c:forEach items="${descList}" var="item" varStatus="stat">
+            <textarea id="contentData${stat.count}" hidden>${item.content}</textarea>
+            <script>
+                    movie_desc_list.push({
+                    type:"${item.type}", 
+                    content:$("#contentData${stat.count}").val(), 
+                    order:"${item.n_order}"
+                });
+            </script>
+        </c:forEach>
     </c:if>
     <link rel="stylesheet" href="/assets/css/movie/form.css">
 </head>
 <body>
     <main>
-        <h1>영화 정보 <span class="type">추가</span></h1>
-        <c:if test="${mode == 'modify'}">
-            <button id="edit">영화 정보 편집</button>
-        </c:if>
+        <h1>영화 정보 <span class="type">추가</span></h1>           
         <div class="basic_info">
             <h1>영화 기본 정보</h1>
+            <button id="edit_basic">영화 기본정보 편집</button>
+            <button id="edit_basic_save" disabled>편집내용 저장</button>
             <table>
                 <tbody>
                     <tr>
@@ -114,7 +113,8 @@
         </div>
         <div class="movie_image_area">
             <div class="movie_image_list_wrap">
-                <h1>영화 이미지 추가</h1>
+                <h1>영화 이미지</h1>
+                <button id="movie_image_edit">영화 이미지 편집</button>
                 <form id="movie_img_form">
                     <input type="file" id="movie_img_select" name="file" hidden accept="image/gif, image/jpeg, image/png">
                 </form>
@@ -126,12 +126,12 @@
                         </div>
                     </c:forEach>
                 </div>
-                <h1>영화 이미지 추가</h1>
                 <button id="add_image" onclick="document.getElementById('movie_img_select').click()">이미지 추가</button>
             </div>
         </div>
         <div class="movie_trailer_area">
-            <h1>영화 트레일러 영상 추가</h1>
+            <h1>영화 트레일러 영상</h1>
+            <button id="trailer_edit">트레일러 영상 목록 편집</button>
             <div class="movie_trailer_list_wrap">
                 <form id="trailer_form">
                     <input type="file" id="trailer_select" name="file" accept="video/mp4" hidden>
@@ -164,7 +164,9 @@
             </div>
         </div>
         <div class="movie_description_area">
-            <h1>영화 스토리 콘텐츠 추가</h1>
+            <h1>영화 스토리 콘텐츠</h1>
+            <button id="story_edit">스토리 콘텐츠 편집</button>
+            <button id="story_save">변경 내용 저장</button>
             <form id="desc_img_form">
                 <input type="file" name="file" id="desc_img_select" hidden accept="image/gif, image/png, image/jpeg">
             </form>
@@ -194,17 +196,7 @@
                     <textarea cols="30" rows="10"></textarea>
                     <button class="desc_text_del">삭제</button>
                 </div> -->
-
             </div>
-        </div>
-        <div class="button_area">
-            <c:if test="${mode == 'add'}">
-                <button id="save">저장</button>
-            </c:if>
-            <c:if test="${mode == 'modify'}">
-                <button id="modify">수정</button>
-            </c:if>
-            <button id="cancel">취소</button>
         </div>
     </main>
 </body>

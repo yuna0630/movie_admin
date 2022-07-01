@@ -1,5 +1,7 @@
 package com.greenart.movie_admin.controller;
 
+import java.lang.annotation.Retention;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
@@ -30,5 +32,11 @@ public class ActorController {
         model.addAttribute("list", actor_service.gCinemaActorList(keyword, country, page));
         
         return "/actor/list";
+    }
+    
+    @GetMapping("/movie_role")
+    public String getActorMovieRole() {
+
+        return "/actor/movie_role";
     }
 }

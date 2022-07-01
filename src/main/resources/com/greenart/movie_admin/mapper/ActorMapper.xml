@@ -40,4 +40,7 @@
             (#{item.cap_cai_seq}, #{item.cap_file_name})
         </foreach>  
     </insert>
+    
+
+
 </mapper>

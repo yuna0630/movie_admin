@@ -1,6 +1,7 @@
 package com.greenart.movie_admin.api;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,7 @@ public class MovieAPIController {
         m.put("name", movie_mapper.getGenreBySeq(seq).getGenre_name());
         return m;    
     }
+    
     @PatchMapping("/genre")
     public Map<String, Object> patchGenreName(@RequestParam Integer seq, @RequestParam String name) {
         Map<String, Object> m = new LinkedHashMap<String, Object>();
@@ -84,7 +86,6 @@ public class MovieAPIController {
         movie_mapper.insertMovieInfo(movie_info);
         movie_mapper.insertMovieImage(data.getMovie_imgs(), movie_info.getMi_seq());
         movie_mapper.insertMovieTrailerVideo(data.getMovie_trailer_list(), movie_info.getMi_seq());
-        
         for(MovieDescRequest vo: data.getMovie_desc_list()) {
             if(vo.getType().equals("img")) {
                 movie_mapper.insertMovieStoryImg(movie_info.getMi_seq(), vo.getContent(), vo.getOrder());
@@ -95,6 +96,35 @@ public class MovieAPIController {
         }
         m.put("status", true);
         m.put("message", "영화 정보가 등록되었습니다.");
+        return m;
+    }
+
+    @PatchMapping("/update/story")
+    @Transactional
+    public Map<String, Object> patchMovieStory(@RequestBody List<MovieDescRequest> data, Integer seq) {
+        Map<String, Object> m = new LinkedHashMap<String, Object>();
+        
+        // for(String filename : movie_mapper.selectDescFileNameList(seq)) {
+        //     String filepath = "/movie/movie_desc/"+filename;
+        //     File deleteFile = new File(filepath);
+        //     if(deleteFile.exists()) {
+        //         deleteFile.delete();
+        //     }
+        // }
+
+        movie_mapper.deleteStroyImgInfoByMovieSeq(seq);
+        movie_mapper.deleteStroyTextInfoByMovieSeq(seq);
+
+        for(MovieDescRequest vo: data) {
+            if(vo.getType().equals("img")) {
+                movie_mapper.insertMovieStoryImg(seq, vo.getContent(), vo.getOrder());
+            }
+            if(vo.getType().equals("text")) {
+                movie_mapper.insertMovieStoryText(seq, vo.getContent(), vo.getOrder());
+            }
+        }
+        m.put("status", true);
+        m.put("message", "변경사항이 적용되었습니다.");
         return m;
     }
 
@@ -154,8 +184,16 @@ public class MovieAPIController {
         return m;
     }
 
+    @PatchMapping("/update/basic")
+    public Map<String, Object> patchMovieBasicInfo(@RequestBody MovieInfoVO data) {
+        Map<String, Object> m = new LinkedHashMap<String, Object>();
+        movie_mapper.patchMovieBasicInfo(data);
+        m.put("status", true);
+        m.put("seq", data.getMi_seq());
+        m.put("message","영화 기본 정보를 수정했습니다.");
+        return m;
+    }
 }
-
 // System.out.println(data.getMovie_info());
 // for(String s : data.getMovie_imgs()) {
 //     System.out.println(s);

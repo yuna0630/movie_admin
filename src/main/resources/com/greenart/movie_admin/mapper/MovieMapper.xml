@@ -138,7 +138,27 @@
         (msi_mi_seq, msi_order, msi_file_name)
         VALUES(#{msi_mi_seq}, #{msi_order}, #{msi_file_name});
     </insert>
-
-
+    <delete id="deleteStroyImgInfoByMovieSeq">
+        delete from movie_story_img where msi_mi_seq = #{seq}
+    </delete>
+    <delete id="deleteStroyTextInfoByMovieSeq">
+        delete from movie_story_text where mst_mi_seq = #{seq}
+    </delete>
+    <select id="selectDescFileNameList" resultType="java.lang.Integer">
+        select msi_file_name movie_story_img where msi_mi_seq = #{seq}
+    </select>
+    <update id="patchMovieBasicInfo">
+        UPDATE movie_info
+        SET
+            mi_genre_seq=#{mi_genre_seq},
+            mi_title=#{mi_title},
+            mi_viewing_age=#{mi_viewing_age},
+            mi_showing_status=#{mi_showing_status},
+            mi_country=#{mi_country},
+            mi_year=#{mi_year},
+            mi_opening_dt=#{mi_opening_dt},
+            mi_running_time=#{mi_running_time}
+        WHERE mi_seq=#{mi_seq};
+    </update>
 
 </mapper>
