@@ -24,6 +24,8 @@
 </head>
 <body>
     <header>
+        <a href="/admin/list">관리자 계정 목록</a>
+        <a href="/admin/history">관리자 접속 기록</a>
         <a href="/movie/genre">장르 정보 관리</a>
         <a href="/actor/list">배우 정보 관리</a>
         <a href="/movie/list">영화 정보 관리</a>

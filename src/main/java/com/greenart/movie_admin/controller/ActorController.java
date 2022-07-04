@@ -1,7 +1,5 @@
 package com.greenart.movie_admin.controller;
 
-import java.lang.annotation.Retention;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
@@ -10,12 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.greenart.movie_admin.mapper.ActorMapper;
 import com.greenart.movie_admin.service.ActorService;
 
 @Controller
 @RequestMapping("/actor")
 public class ActorController {
     @Autowired ActorService actor_service;
+    @Autowired ActorMapper actor_mapper;
     @GetMapping("/list")
     public String getActorList(
         @RequestParam @Nullable String keyword,
@@ -35,8 +35,17 @@ public class ActorController {
     }
     
     @GetMapping("/movie_role")
-    public String getActorMovieRole() {
-
+    public String getActorMovieRole(Model model,
+        @RequestParam @Nullable String keyword,
+        @RequestParam @Nullable Integer page,
+        @RequestParam @Nullable String country
+    ) {
+        if(page == null) page = 1;
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("page", page);
+        model.addAttribute("country", country);
+        model.addAttribute("list", actor_mapper.selectActorRoleCntInfo((page-1)*10, keyword, country));
+        model.addAttribute("pageCount", actor_mapper.selectActorRoleCntInfoPageCount(keyword, country));
         return "/actor/movie_role";
     }
 }
