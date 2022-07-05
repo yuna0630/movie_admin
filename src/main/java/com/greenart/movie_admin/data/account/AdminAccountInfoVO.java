@@ -8,6 +8,5 @@ public class AdminAccountInfoVO {
     private String aai_id;
     private String aai_pwd;
     private String ai_name;
-    private String aai_role;
-    
+    private Integer aai_role;
 }

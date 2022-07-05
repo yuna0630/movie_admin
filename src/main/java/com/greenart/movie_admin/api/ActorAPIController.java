@@ -29,6 +29,7 @@ import com.greenart.movie_admin.service.ActorService;
 public class ActorAPIController {
     @Autowired ActorMapper actor_mapper;
     @Autowired ActorService actor_service;
+    
     @Transactional
     @PutMapping("/add")
     public Map<String, Object> putActorInfo(@RequestBody ActorInsertVO data) {

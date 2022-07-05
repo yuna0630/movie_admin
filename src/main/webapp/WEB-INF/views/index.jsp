@@ -11,6 +11,19 @@
     <link rel="stylesheet" href="/assets/css/header.css">
 </head>
 <body>
-    <h1>dddddd</h1>
+    <table>
+        <h1>관리자 로그인</h1>
+        <form action="login" method="post">
+            <input type="text" name="id" placeholder="아이디를 입력하세요.">
+            <input type="pwd" name="pwd" placeholder="비밀번호를 입력하세요.">
+            <button type="submit">로그인</button>
+        </form>
+        <div class="">
+            <a href="/member/join">
+                <i class="fas fa-user-edit"></i>
+                <span>사용자 등록</span>
+            </a>
+        </div>
+    </table>
 </body>
 </html>
