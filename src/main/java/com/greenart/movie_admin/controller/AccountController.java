@@ -1,5 +1,7 @@
 package com.greenart.movie_admin.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
@@ -25,5 +27,10 @@ public class AccountController {
         model.addAttribute("list", account_mapper.selectAllAdminAccount(keyword, (page-1)*10));
         model.addAttribute("pageCount", account_mapper.selectAdminAccountPageCnt(keyword));
         return "/account/list";
+    }
+    @GetMapping("/logout") 
+    public String getAccountLogout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
     }
 }

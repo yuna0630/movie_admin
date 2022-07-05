@@ -16,4 +16,5 @@ public interface AccountMapper {
     public void deleteAdminAccount(Integer seq);
 
     public AdminAccountInfoVO selectAdminBySeq(Integer seq);
+    public AdminAccountInfoVO loginUser(AdminAccountInfoVO data);
 }

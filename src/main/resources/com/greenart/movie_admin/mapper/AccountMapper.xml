@@ -6,6 +6,7 @@
             SELECT aai_seq, aai_id, aai_name, aai_role
             FROM admin_account_info
             WHERE aai_id like '%${keyword}%'
+            limit 10 offset #{offset}
     </select>
     <select id="selectAdminAccountInfoCnt" resultType="java.lang.Integer">
         select count(*) from admin_account_info where aai_id like '%${keyword}%'
@@ -22,14 +23,18 @@
     <update id="updateAdminAccount">
         update admin_account_info
         set 
-            aai_pwd = #{aai_pwd} aai_name = #{aai_name} aai_role = #{aai_role} 
+            aai_pwd = #{aai_pwd}, aai_name = #{aai_name}, aai_role = #{aai_role} 
         where
-            aai_seq = #{seq}
+            aai_seq = #{aai_seq}
     </update>
     <delete id="deleteAdminAccount">
         delete from admin_account_info where aai_seq = #{seq}
     </delete>
     <select id="selectAdminBySeq" resultType="com.greenart.movie_admin.data.account.AdminAccountInfoVO">
-        select aai_seq, aai_id, aai_name, aai_role from admin_account_info where aai_seq =#{seq}
+        select aai_seq,aai_id,aai_name,aai_role from admin_account_info where aai_seq = #{seq}
+    </select>
+    <select id="loginUser" resultType="com.greenart.movie_admin.data.account.AdminAccountInfoVO">
+        select aai_seq, aai_id, aai_name, aai_role from admin_account_info
+        where aai_id = #{aai_id} and aai_pwd = #{aai_pwd}
     </select>
 </mapper>

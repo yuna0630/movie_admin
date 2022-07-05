@@ -66,7 +66,7 @@ $(function(){
             type:"get",
             success:function(r) {
                 $(".account_modify_popup").show();
-                $("#mod_aai_id").val(r.aai_id)
+                $("#mod_aai_id").val(r.aai_id).prop("disabled", true);
                 $("#mod_aai_name").val(r.aai_name)
                 $("#mod_aai_role").val(r.aai_role).prop("selected",true);
                 $("#mod_account").attr("data-seq", r.aai_seq);
@@ -76,10 +76,44 @@ $(function(){
     $("#mod_cancel").click(function(){
         if(!confirm("취소하시겠습니까?\n입력된 정보는 저장되지 않습니다.")) return;
         $(".account_modify_popup").hide();
-        $("#mod_aai_id").val("")
+        $("#mod_aai_id").val("").prop("selected",false);
         $("#mod_aai_pwd").val("")
         $("#mod_aai_name").val("")
         $("#mod_aai_role").val(1).prop("selected",true);
         $("#mod_account").attr("data-seq", null);
+    })
+    $("#mod_account").click(function(){
+        // if(isEmpty($("#mod_aai_id").val())) {
+        //     alert("아이디를 올바르게 입력하세요");
+        //     return;
+        // }
+        if(isEmpty($("#mod_aai_pwd").val())) {
+            alert("비밀번호를 올바르게 입력하세요");
+            return;
+        }
+        if(isEmpty($("#mod_aai_name").val(), false)) {
+            alert("이름을 올바르게 입력하세요");
+            return;
+        }
+        let data = {
+            aai_seq:$(this).attr("data-seq"),
+            // aai_id:,
+            aai_pwd:$("#mod_aai_pwd").val(),
+            aai_name:$("#mod_aai_name").val(),
+            aai_role:$("#mod_aai_role option:selected").val()
+        }
+        $.ajax({
+            url:"/api/account/update",
+            type:"patch",
+            contentType:"application/json",
+            data:JSON.stringify(data),
+            success:function(r){
+                alert(r.message);
+                location.reload();
+            },
+            error:function(err) {
+                alert(err.responseJSON.message);
+            }
+        })
     })
 })

@@ -63,6 +63,10 @@
             <a class="movie_list" href="/movie/list">영화 정보 관리</a>
             <a class="movie_role" href="/actor/movie_role">영화 배역 정보 관리</a>
         </div>
+        <div class="user_info">
+            <span>${loginUser.aai_name}(${loginUser.aai_id})</span>
+            <a href="/account/logout">로그아웃</a>
+        </div>
     </header>
 </body>
 </html>
