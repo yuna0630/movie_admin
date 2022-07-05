@@ -17,22 +17,6 @@
     <script src="/assets/js/index.js"></script>
 </head>
 <body>
-<<<<<<< HEAD
-    <table>
-        <h1>관리자 로그인</h1>
-        <form action="login" method="post">
-            <input type="text" name="id" placeholder="아이디를 입력하세요.">
-            <input type="pwd" name="pwd" placeholder="비밀번호를 입력하세요.">
-            <button type="submit">로그인</button>
-        </form>
-        <div class="">
-            <a href="/member/join">
-                <i class="fas fa-user-edit"></i>
-                <span>사용자 등록</span>
-            </a>
-        </div>
-    </table>
-=======
     <div class="login_box">
         <h1>Admin Login</h1>
         <p class="label">아이디</p>
@@ -43,6 +27,5 @@
         <p class="error">비밀번호를 올바르게 입력하세요</p>
         <button id="login_btn">로그인</button>
     </div>
->>>>>>> admin_info_work2
 </body>
 </html>

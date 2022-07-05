@@ -29,22 +29,22 @@ public class MainController {
         return "/index";
     }
 
-    @PostMapping("/account/login")
-    public String postAdminLogin(String id, String pwd, HttpSession session) throws Exception{
-        AdminAccountInfoVO user = account_mapper.loginAdmin(id, AESAlgorithm.Encrypt(pwd));
-        if(user == null) {
-            session.setAttribute("msg", "아이디 또는 비밀번호 오류입니다.");
-        }
-        else if(user.getAai_role() == 1) {
-            session.setAttribute("msg", "관리자 전용 서비스 화면입니다.");
-        }
-        else {
-            session.setAttribute("msg", null);
-            session.setAttribute("login_user", user);
-            return "redirect:/";
-        }
-        return "/index";
-    }
+    // @PostMapping("/account/login")
+    // public String postAdminLogin(String id, String pwd, HttpSession session) throws Exception{
+    //     AdminAccountInfoVO user = account_mapper.loginAdmin(id, AESAlgorithm.Encrypt(pwd));
+    //     if(user == null) {
+    //         session.setAttribute("msg", "아이디 또는 비밀번호 오류입니다.");
+    //     }
+    //     else if(user.getAai_role() == 1) {
+    //         session.setAttribute("msg", "관리자 전용 서비스 화면입니다.");
+    //     }
+    //     else {
+    //         session.setAttribute("msg", null);
+    //         session.setAttribute("login_user", user);
+    //         return "redirect:/";
+    //     }
+    //     return "/index";
+    // }
     @GetMapping("/logout")
     public String getLogout(HttpSession session) {
         session.getAttribute("login_user");
