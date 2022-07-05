@@ -9,5 +9,4 @@ public class MovieActorCastingInfoVO {
     private Integer maci_mi_seq;
     private String maci_casting_name;
     private Integer maci_role;
-    
 }

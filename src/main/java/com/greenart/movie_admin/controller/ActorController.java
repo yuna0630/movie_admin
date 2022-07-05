@@ -20,31 +20,32 @@ public class ActorController {
     public String getActorList(
         @RequestParam @Nullable String keyword,
         @RequestParam @Nullable Integer page,
-        @RequestParam @Nullable String country, Model model
-    ) {
-        if(page == null) page = 1;
+        @RequestParam @Nullable String country, Model model){
+            
 
-        model.addAttribute("countryURL", actor_service.makeActorCountryLink(keyword));
-        model.addAttribute("pagerURL", actor_service.makePagerURL(keyword, country));
-        model.addAttribute("keyword", keyword);
-        model.addAttribute("page", page);
-        model.addAttribute("country", country);
-        model.addAttribute("list", actor_service.gCinemaActorList(keyword, country, page));
-        
-        return "/actor/list";
+            if(page == null) page = 1;
+            model.addAttribute("countryURL", actor_service.makeActorCountryLink(keyword));
+            model.addAttribute("pagerURL", actor_service.makePagerURL(keyword, country));
+            model.addAttribute("keyword", keyword);
+            model.addAttribute("page", page);
+            model.addAttribute("country", country);
+            model.addAttribute("list", actor_service.getCinemaActorList(keyword, country, page));
+            return "actor/list";
     }
     
     @GetMapping("/movie_role")
-    public String getActorMovieRole(Model model,
+    public String getActorMovieRole(
         @RequestParam @Nullable String keyword,
         @RequestParam @Nullable Integer page,
-        @RequestParam @Nullable String country
+        @RequestParam @Nullable String country, Model model
     ) {
+
         if(page == null) page = 1;
         model.addAttribute("keyword", keyword);
         model.addAttribute("page", page);
         model.addAttribute("country", country);
-        model.addAttribute("list", actor_mapper.selectActorRoleCntInfo((page-1)*10, keyword, country));
+
+        model.addAttribute("list", actor_mapper.selectActorRoleCntInfo((page-1)*10,keyword, country));
         model.addAttribute("pageCount", actor_mapper.selectActorRoleCntInfoPageCount(keyword, country));
         return "/actor/movie_role";
     }

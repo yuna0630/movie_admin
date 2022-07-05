@@ -16,11 +16,11 @@ public class MainController {
     @Autowired AccountMapper account_mapper;
 
     @GetMapping("/")
-    public String getMain() {
+    public String getMain(){
         return "/index";
     }
     @GetMapping("/summary")
-    public String getSummary() {
+    public String getSummary(){
         return "/summary";
     }
 

@@ -9,9 +9,9 @@ public class MovieCommentVO {
     private Integer mc_seq;
     private Integer mc_parent_seq;
     private Integer mc_mi_seq;
-    private Integer mc_mai_seq;
+    private Integer mc_ai_seq;
     private String mc_content;
     private Integer mc_rate;
     private Date mc_reg_dt;
-    private Date ai_mod_dt;
+    private Date mc_mod_dt;
 }

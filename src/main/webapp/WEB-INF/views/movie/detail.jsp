@@ -1,5 +1,6 @@
-<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%-- <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%> --%>
+<%@page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
 <%@include file="/WEB-INF/includes/header.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +21,7 @@
         </script>
         <c:forEach items="${imgList}" var="item">
             <script>
-                movie_imgs.push({seq:'${item.mimg_seq}', filename:'${item.mimg_file_name}'})
+                movie_imgs.push({seq:'${item.mimg_seq}', filename:'${item.mimg_file_name}'});
             </script>
         </c:forEach>
         <c:forEach items="${videoList}" var="item">
@@ -28,7 +29,7 @@
                 movie_trailer_list.push(
                     {
                         seq:'${item.tvi_seq}',
-                        order: '${item.tvi_order}',
+                        order:'${item.tvi_order}',
                         file:'${item.tvi_file_name}',
                         ext:'-',
                         fileSize:'-',
@@ -40,19 +41,20 @@
         <c:forEach items="${descList}" var="item" varStatus="stat">
             <textarea id="contentData${stat.count}" hidden>${item.content}</textarea>
             <script>
-                    movie_desc_list.push({
+                movie_desc_list.push({
                     type:"${item.type}", 
                     content:$("#contentData${stat.count}").val(), 
                     order:"${item.n_order}"
                 });
             </script>
         </c:forEach>
+        
     </c:if>
     <link rel="stylesheet" href="/assets/css/movie/form.css">
 </head>
 <body>
     <main>
-        <h1>영화 정보 <span class="type">추가</span></h1>           
+        <h1>영화 정보 <span class="type">추가</span></h1>
         <div class="basic_info">
             <h1>영화 기본 정보</h1>
             <button id="edit_basic">영화 기본정보 편집</button>
@@ -75,10 +77,10 @@
                         <td>관람연령</td>
                         <td>
                             <select id="viewing_age">
-                                <option value="0">전체 관람가</option>
-                                <option value="12">12세 이상 관람가</option>
-                                <option value="15">15세 이상 관람가</option>
-                                <option value="19">19세 이상 관람가</option>
+                                <option value="0">전체관람가</option>
+                                <option value="12">12세 이상</option>
+                                <option value="15">15세 이상</option>
+                                <option value="19">19세 이상</option>
                             </select>
                         </td>
                         <td>상영시간</td>
@@ -93,12 +95,11 @@
                         </td>
                         <td>개봉일</td>
                         <td>
-                            <input type="text" id="opening_dt" value= "<fmt:formatDate value="${movieInfo.mi_opening_dt}" pattern="yyyy-MM-dd"/> ">
-                        </td>
+                            <input type="text" id="opening_dt" value="<fmt:formatDate value="${movieInfo.mi_opening_dt}" pattern="yyyy-MM-dd"/>">                        </td>
                         <td>상영여부</td>
                         <td>
                             <select id="movie_status">
-                                <option value="0">개봉 예정작</option>
+                                <option value="0">미개봉</option>
                                 <option value="1">상영중</option>
                                 <option value="2">스트리밍</option>
                             </select>
@@ -112,15 +113,15 @@
             </table>
         </div>
         <div class="movie_image_area">
+            <h1>영화 이미지</h1>
+            <button id="movie_image_edit">영화 이미지 편집</button>
             <div class="movie_image_list_wrap">
-                <h1>영화 이미지</h1>
-                <button id="movie_image_edit">영화 이미지 편집</button>
                 <form id="movie_img_form">
                     <input type="file" id="movie_img_select" name="file" hidden accept="image/gif, image/jpeg, image/png">
                 </form>
                 <div class="movie_image_list">
                     <c:forEach items="${imgList}" var="img">
-                        <div class="movie_img" filename ="${img.mimg_file_name}">
+                        <div class="movie_img" filename="${img.mimg_file_name}">
                             <img src="/images/movie/${img.mimg_file_name}">
                             <button onclick="deleteImg('${img.mimg_file_name}', '${img.mimg_seq}')">&times;</button>
                         </div>
@@ -153,7 +154,7 @@
                                 <td>${stat.count}</td>
                                 <td>${item.tvi_file_name}</td>
                                 <td>-</td>
-                                <td>-Bytes</td>
+                                <td>- Bytes</td>
                                 <td>
                                     <button class="delete_trailer" onclick="deleteTrailer('${item.tvi_file_name}', '${item.tvi_seq}')">삭제</button>
                                 </td>
@@ -166,39 +167,29 @@
         <div class="movie_description_area">
             <h1>영화 스토리 콘텐츠</h1>
             <button id="story_edit">스토리 콘텐츠 편집</button>
-            <button id="story_save">변경 내용 저장</button>
+            <button id="story_save">변경내용 저장</button>
             <form id="desc_img_form">
-                <input type="file" name="file" id="desc_img_select" hidden accept="image/gif, image/png, image/jpeg">
+                <input type="file" name="file" id="desc_img_select" hidden accept="image/gif, image/jpeg, image/png">
             </form>
             <button id="img_add" onclick="document.getElementById('desc_img_select').click()">이미지 추가</button>
             <button id="text_add">설명 추가</button>
             <div class="description_list">
                 <c:forEach items="${descList}" var="item">
                     <c:if test="${item.type == 'img'}">
-                        <div class="desc_img_box" filename ="${item.content}">
+                        <div class="desc_img_box" filename="${item.content}">
                             <img src="/images/movie_desc/${item.content}">
-                            <button onclick="deleteDescImg('${item.content}')">&times;</button>
+                            <button onclick='deleteDescImg("${item.content}", "${item.seq}")'>&times;</button>
                         </div>
                     </c:if>
                     <c:if test="${item.type == 'text'}">
                         <div class="desc_text_box">
                             <textarea cols="30" rows="10" id="text${item.n_order}" onkeyup="saveDescText('${item.n_order}')">${item.content}</textarea>
-                            <button class="desc_text_save" onclick="saveDescText('${item.n_order}')">저장</button>
                             <button class="desc_text_del" onclick="deleteDescText('${item.n_order}', '${item.seq}')">삭제</button>
                         </div>
                     </c:if>
                 </c:forEach>
-                <!-- <div class="desc_img_box">
-                    <img src="http://placekitten.com/960/540">
-                    <button id="desc_img_del">삭제</button>
-                </div> -->
-                <!-- <div class="desc_text_box">
-                    <textarea cols="30" rows="10"></textarea>
-                    <button class="desc_text_del">삭제</button>
-                </div> -->
             </div>
         </div>
     </main>
 </body>
 </html>
-

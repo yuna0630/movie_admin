@@ -6,6 +6,6 @@ import lombok.Data;
 public class CommentReportVO {
     private Integer cr_seq;
     private Integer cr_ai_seq;
-    private Integer cr_mi_seq;
+    private Integer cr_mc_seq;
     private Integer cr_reason;
 }

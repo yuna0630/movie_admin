@@ -8,5 +8,4 @@ public class GenreInfoVO {
     private String genre_name;
 
     private Integer genre_count;
-
 }

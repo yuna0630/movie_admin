@@ -29,14 +29,18 @@ import com.greenart.movie_admin.service.ActorService;
 public class ActorAPIController {
     @Autowired ActorMapper actor_mapper;
     @Autowired ActorService actor_service;
+<<<<<<< HEAD
     
     @Transactional
+=======
+>>>>>>> admin_info_work2
     @PutMapping("/add")
-    public Map<String, Object> putActorInfo(@RequestBody ActorInsertVO data) {
-        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-        
+    @Transactional
+    public Map<String,Object> putActorInfo(@RequestBody ActorInsertVO data){
+        Map<String,Object> resultMap = new LinkedHashMap<String,Object>();
+
         CinemaActorInfoVO info = new CinemaActorInfoVO(data.getName(), data.getCountry());
-        actor_mapper.inserActorInfo(info);
+        actor_mapper.insertActorInfo(info);
         List<CinemaActorPhotoVO> photo_list = new ArrayList<CinemaActorPhotoVO>();
         for(String s : data.getImages()) {
             CinemaActorPhotoVO photo = new CinemaActorPhotoVO();
@@ -44,52 +48,56 @@ public class ActorAPIController {
             photo.setCap_file_name(s);
             photo_list.add(photo);
         }
-        actor_mapper.insetActorImages(photo_list);
+        actor_mapper.insertActorImages(photo_list);
         resultMap.put("info", info);
         resultMap.put("data", data);
-        resultMap.put("message", "배우정보를 추가했습니다.");
+        resultMap.put("message", "배우 정보를 추가하였습니다");
+
         return resultMap;
     }
 
     @GetMapping("/actor_role")
-    public Map<String, Object> getActorRole(Integer seq) {
-        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-        resultMap.put("status", true);
-        resultMap.put("list", actor_mapper.selectActorRoleInfo(seq));
-        return resultMap;
+    public Map<String,Object> getActorRole(Integer seq){
+        Map<String,Object> m = new LinkedHashMap<String,Object>();
+        m.put("status", true);
+        m.put("list", actor_mapper.selectActorRoleInfo(seq));
+        return m;
     }
+
     @GetMapping("/actor_list")
-    public Map<String, Object> getActorList(
-        @RequestParam @Nullable String keyword, @RequestParam @Nullable Integer page
-        ) {
+    public Map<String,Object> getActorList(@RequestParam @Nullable String keyword, @RequestParam @Nullable Integer page) {
+        Map<String,Object> m = new LinkedHashMap<String,Object>();
         if(page == null) page = 1;
-        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-        resultMap.put("list",actor_service.gCinemaActorList(keyword, null, page));
-        resultMap.put("pageCount", actor_mapper.selectActorListPageCount(keyword, null));
-        return resultMap;
+        m.put("list", actor_service.getCinemaActorList(keyword, null, page));
+        m.put("pageCount", actor_mapper.selectActorListPageCnt(keyword, null));
+        
+        return m;
     }
+    
     @PutMapping("/actor_role/add")
-    public Map<String, Object> putActorRoleInfo(@RequestBody MovieActorCastingInfoVO data) {
-        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+    public Map<String,Object> putActorRoleInfo(@RequestBody MovieActorCastingInfoVO data) {
+        Map<String,Object> m = new LinkedHashMap<String,Object>();
         actor_mapper.insertActorRoleInfo(data);
-        resultMap.put("status", true);
-        resultMap.put("message", "배역 정보를 추가하였습니다.");
-        return resultMap;
+        m.put("status", true);
+        m.put("message", "배역 정보를 추가하셨습니다.");
+        return m;
     }
+
     @DeleteMapping("/actor_role")
-    public Map<String, Object> deleteActorRoleInfo(@RequestParam Integer seq) {
-        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-        actor_mapper.deleteActorRoleInfoBySeq(seq);
-        resultMap.put("status", true);
-        resultMap.put("message", "배우/배역 정보를 삭제하였습니다.");
-        return resultMap;
+    public Map<String,Object> deleteActorRole(Integer seq){
+        Map<String,Object> m = new LinkedHashMap<String,Object>();
+        actor_mapper.deleteActorRoleInfoByseq(seq);
+        m.put("status", true);
+        m.put("message", "배우/배역 정보를 삭제하였습니다.");
+        return m;
     }
+
     @PatchMapping("/actor_role")
-    public Map<String, Object> patchActorRoleInfo(@RequestBody MovieActorCastingInfoVO data) {
-        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+    public Map<String,Object> patchActorRoleInfo(@RequestBody MovieActorCastingInfoVO data) {
+        Map<String,Object> m = new LinkedHashMap<String,Object>();
         actor_mapper.updateActorRoleInfo(data);
-        resultMap.put("status", true);
-        resultMap.put("message", "배우/배역 정보가 수정되었습니다.");
-        return resultMap;
+        m.put("status", true);
+        m.put("message", "배우/배역 정보를 수정하였습니다.");
+        return m;
     }
 }

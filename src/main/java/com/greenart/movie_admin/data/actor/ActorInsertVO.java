@@ -9,4 +9,4 @@ public class ActorInsertVO {
     private String name;
     private String country;
     private List<String> images;
-    }
+}

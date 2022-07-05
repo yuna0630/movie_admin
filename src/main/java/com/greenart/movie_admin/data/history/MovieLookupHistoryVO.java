@@ -8,6 +8,6 @@ import lombok.Data;
 public class MovieLookupHistoryVO {
     private Integer mlh_seq;
     private Integer mlh_ai_seq;
-    private Integer maci_mi_seq;
+    private Integer mlh_mi_seq;
     private Date mlh_lookup_time;
 }

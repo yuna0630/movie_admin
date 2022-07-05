@@ -1,4 +1,4 @@
-package com.greenart.movie_admin.data.movie.request;
+package com.greenart.movie_admin.data.movie;
 
 import lombok.Data;
 

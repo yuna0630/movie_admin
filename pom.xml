@@ -13,7 +13,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>movie_admin</name>
-	<description>영화 정보 제공 서비스(관리자 서비스)</description>
+	<description>영화 정보 제공 서비스 (관리자 서비스)</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
