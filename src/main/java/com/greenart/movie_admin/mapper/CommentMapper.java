@@ -1,5 +1,5 @@
 package com.greenart.movie_admin.mapper;
 
-public interface CommentMapper {
+public class CommentMapper {
     
 }

@@ -20,11 +20,11 @@ $(function(){
                         '<img src="/images/actor/'+r.list[i].cap_file_name+'">'+
                         '<p>'+(r.list[i].maci_role==1?"주연":"조연")+'</p>'+
                         '<p>'+
-                            '<span>'+r.list[i].maci_casting_name+'역</span><span class="sep">|</span><span>'+r.list[i].cai_name+'</span>'+
+                            '<span>'+r.list[i].maci_casting_name+' 역</span><span class="sep">|</span><span>'+r.list[i].cai_name+'</span>'+
                         '</p>'+
                         '<button class="actor_role_modify" data-role="'+r.list[i].maci_role+'" data-casting-name="'+r.list[i].maci_casting_name+'" data-actor-name="'+r.list[i].cai_name+'" data-seq="'+r.list[i].maci_seq+'">수정</button>'+
                         '<button class="actor_role_delete" data-seq="'+r.list[i].maci_seq+'">삭제</button>'+
-                    '</div>'
+                    '</div>';
                     $(".actors").append(tag);
                 }
                 $(".actor_role_modify").click(function(){
@@ -32,11 +32,11 @@ $(function(){
                     let casting_name = $(this).attr("data-casting-name");
                     let actor_name = $(this).attr("data-actor-name");
                     let seq = $(this).attr("data-seq");
-                    
+
                     $("#actor_mod_name").attr("data-seq", seq);
                     $("#actor_mod_name").val(actor_name);
                     $("#actor_mod_role_name").val(casting_name);
-                    $("#mod_role"+role).prop("checked", true);
+                    $("#mod_role"+role).attr("checked", true);
 
                     $("#actor_mod_name").prop("disabled", true);
                     $(".actor_modify_popup").show();
@@ -56,11 +56,10 @@ $(function(){
             }
         })
     })
-
     $("#actor_add").click(function(){
         $(".actor_add_popup").show();
     })
-    $("actor_role_cancel").click(function() {
+    $("#actor_role_cancel").click(function(){
         $(".actor_add_popup").hide();
     })
     $("#actor_name").click(function(){
@@ -69,14 +68,14 @@ $(function(){
     })
     $("#actor_search_button").click(function(){
         actor_keyword = $("#actor_search_keyword").val();
-        getActorList(actor_keyword,1);
+        getActorList(actor_keyword, 1);
     })
     $("#actor_role_save").click(function(){
         let data = {
             maci_cai_seq:$("#actor_name").attr("data-seq"),
             maci_mi_seq:$(this).attr("data-seq"),
             maci_casting_name:$("#actor_role_name").val(),
-            maci_role: $(".role_type:checked").val()
+            maci_role:$(".role_type:checked").val()
         }
         $.ajax({
             url:"/api/actor/actor_role/add",
@@ -89,28 +88,27 @@ $(function(){
             }
         })
     })
-    
     $("#actor_role_cancel").click(function(){
-        if(!confirm("배역 정보 추가를 취소하시겠습니까?\n(입력된 정보는 저장 되지 않습니다.)")) return;
+        if(!confirm("배역 정보 추가를 취소하시겠습니까?\n(입력된 정보는 저장되지 않습니다.)")) return;
         $(".actor_add_popup").hide();
-        // 입력내용 초기화
+        // 입력내용 초기화.
         $("#actor_name").val("");
         $("#actor_name").attr("data-seq", null);
         $("#actor_role_name").val("");
         $("#role2").prop("checked", true);
     })
     $("#actor_mod_role_cancel").click(function(){
-        if(!confirm("배역 정보 수정을 취소하시겠습니까?\n(입력된 정보는 저장 되지 않습니다.)")) return;
+        if(!confirm("배역 정보 수정을 취소하시겠습니까?\n(변경된 정보는 저장되지 않습니다.)")) return;
         $(".actor_modify_popup").hide();
-        $("#actor_mod_name").attr("data-seq", seq);
+        $("#actor_mod_name").attr("data-seq", "");
         $("#actor_mod_name").val("");
         $("#actor_mod_role_name").val("");
         $("#mod_role2").attr("checked", true);
     });
     $("#actor_mod_role_save").click(function(){
-        let data ={
+        let data = {
             maci_seq:$("#actor_mod_name").attr("data-seq"),
-            maci_casting_name:$("#actor_mod_name").val(),
+            maci_casting_name:$("#actor_mod_role_name").val(),
             maci_role:$(".role_mod_type:checked").val()
         }
         $.ajax({
@@ -145,14 +143,16 @@ function getActorList(keyword, page) {
                 '</tr>';
                 $(".actor_search_list tbody").append(tag);
             }
+
             $(".actor_search_pager_area").html("");
             for(let i=0; i<r.pageCount; i++) {
                 let tag = '<button class="actor_pager">'+(i+1)+'</button>'
                 $(".actor_search_pager_area").append(tag);
             }
+
             $(".actor_pager").click(function(){
                 let page = $(this).html();
-                getActorList(actor_keyword,page);
+                getActorList(actor_keyword, page);
             })
 
             $(".actor_select").click(function(){
@@ -160,9 +160,8 @@ function getActorList(keyword, page) {
                 let seq = $(this).attr("data-seq");
                 $("#actor_name").val(name);
                 $("#actor_name").attr("data-seq", seq);
-                $(".actor_search_popup").hide();
 
-                actor_keyword='';
+                actor_keyword = "";
                 $("#actor_search_keyword").val("");
 
                 $(".actor_search_popup").hide();
@@ -170,4 +169,3 @@ function getActorList(keyword, page) {
         }
     })
 }
-

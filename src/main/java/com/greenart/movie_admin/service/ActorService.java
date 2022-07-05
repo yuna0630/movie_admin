@@ -14,23 +14,24 @@ import com.greenart.movie_admin.mapper.ActorMapper;
 public class ActorService {
     @Autowired ActorMapper actor_mapper;
     public List<String> makePagerURL(String keyword, String country) {
-        Integer pageCnt = actor_mapper.selectActorListPageCount(keyword, country);
+        Integer pageCnt = actor_mapper.selectActorListPageCnt(keyword, country);
         List<String> pagerURL = new ArrayList<String>();
-        for(int i = 0; i< pageCnt; i++) {
+        for(int i=0; i<pageCnt; i++){
             String url = "/actor/list?page="+(i+1);
             if(keyword != null && !keyword.equals("")) url += "&keyword="+keyword;
-            if(country != null) url += "&country"+country;
+            if(country != null) url += "&country="+country;
             pagerURL.add(url);
         }
         return pagerURL;
     }
 
-    public List<ActorCountryVO> makeActorCountryLink(String keyword) {
+    public List<ActorCountryVO> makeActorCountryLink(String keyword){
         List<ActorCountryVO> countryLinkList = new ArrayList<ActorCountryVO>();
-        List<String> countryList = actor_mapper.selectActorCountryList();
-        for(int i=0; i<countryList.size(); i++) {
+        List<String> countryList = actor_mapper.selectActorCounrtyList();
+        for(int i = 0; i<countryList.size(); i++){  
             String url = "/actor/list?country="+countryList.get(i);
             if(keyword != null && !keyword.equals("")) url += "&keyword="+keyword;
+            // countryList.set(i, url);
             ActorCountryVO data = new ActorCountryVO();
             data.setUrl(url);
             data.setCountry(countryList.get(i));
@@ -38,9 +39,10 @@ public class ActorService {
         }
         return countryLinkList;
     }
-    public List<CinemaActorListVO> gCinemaActorList(String keyword, String country,Integer page) {
+    public List<CinemaActorListVO> getCinemaActorList(String keyword, String country, Integer page){
         List<CinemaActorListVO> list = actor_mapper.selectCinemaActorList(keyword, country, (page-1)*10);
-        for(int i=0; i<list.size(); i++) {
+
+        for(int i = 0; i<list.size(); i++) {
             if(list.get(i).getPhoto() == null) {
                 list.get(i).setPhoto("default.jpg");
             }

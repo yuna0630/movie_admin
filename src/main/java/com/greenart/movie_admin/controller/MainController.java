@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MainController {
     @GetMapping("/")
-    public String getMain() {
+    public String getMain(){
         return "/index";
     }
     @GetMapping("/summary")
-    public String getSummary() {
+    public String getSummary(){
         return "/summary";
     }
 }

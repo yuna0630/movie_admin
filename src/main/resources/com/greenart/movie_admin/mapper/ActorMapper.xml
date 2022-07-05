@@ -4,85 +4,81 @@
 <mapper namespace="com.greenart.movie_admin.mapper.ActorMapper">
     <select id="selectCinemaActorList" resultType="com.greenart.movie_admin.data.actor.CinemaActorListVO">
         select a.*, b.cap_file_name as photo from cinema_actor_info a left outer join
-            (
-                select * from cinema_actor_photo 
-                group by cap_cai_seq
-            ) b on 
-        a.cai_seq = b.cap_cai_seq
+        (
+	    select * from cinema_actor_photo group by cap_cai_seq 
+        )b on
+        a.cai_seq = b.cap_cai_seq 
         where cai_name like '%${keyword}%'
         <if test="country != null">
         and cai_country = #{country}
         </if>
-        limit 10 offset #{offset};
-    </select>
-    <select id="selectActorListPageCount" resultType="java.lang.Integer">
-        select ceil(count(*)/10) from cinema_actor_info
-        where cai_name like '%${keyword}%'
-        <if test="country != null">
-        and cai_country = #{country}
-        </if>
-    </select>
-    <select id ="selectActorCountryList" resultType="java.lang.String">
-        select distinct cai_country from cinema_actor_info
-    </select>
-    <insert id="inserActorInfo"
-    parameterType="com.greenart.movie_admin.data.actor.CinemaActorInfoVO" 
-    useGeneratedKeys="true" keyProperty="cai_seq">
-        insert into cinema_actor_info(cai_name, cai_country)
-        values 
-        (#{cai_name}, #{cai_country})
-    </insert>
-    <insert id="insetActorImages">
-        INSERT INTO cinema_actor_photo
-        (cap_cai_seq, cap_file_name)
-        VALUES
-        <foreach collection="list" index="index" item="item" separator=",">
-            (#{item.cap_cai_seq}, #{item.cap_file_name})
-        </foreach>  
-    </insert>
-    <select id="selectActorRoleCntInfo" resultType="com.greenart.movie_admin.data.movie.MovieInfoVO">
-        select
-            mi_seq, mi_title, mi_country, mi_year,
-            (
-                select count(*)	 from movie_actor_casting_info
-                where maci_mi_seq = mi_seq
-            ) as actor_count
-        from movie_info
-        where mi_title like '%${keyword}%'
-        <if test="country != null">
-            and mi_country = #{country}
-        </if>
-        order by mi_opening_dt desc
         limit 10 offset #{offset}
     </select>
-    <select id="selectActorRoleCntInfoPageCount" resultType="java.lang.Integer">
-        select ceil(count(*)/10) from movie_info
-        where mi_title like '%${keyword}%'
+    <select id="selectActorListPageCnt" resultType="java.lang.Integer">
+        select ceil(count(*)/10) from cinema_actor_info where cai_name like '%${keyword}%'
         <if test="country != null">
-            and mi_country = #{country}
+            and cai_country = #{country}
         </if>
     </select>
-    <select id="selectActorRoleInfo" resultType="com.greenart.movie_admin.data.actor.ActorRoleInfoVo">
-        select a.*, b.cai_name, b.cai_country, c.cap_file_name from
-        movie_actor_casting_info a inner join cinema_actor_info b 
-        on a.maci_cai_seq = b.cai_seq 
-        inner join cinema_actor_photo c 
-        on b.cai_seq = c.cap_cai_seq 
-        where a.maci_mi_seq = #{seq}
+    <select id="selectActorCounrtyList" resultType="java.lang.String">
+        select distinct  cai_country from cinema_actor_info
+    </select>
+    <insert id="insertActorInfo" parameterType="com.greenart.movie_admin.data.actor.CinemaActorInfoVO"
+        useGeneratedKeys="true" keyProperty="cai_seq">
+        insert into cinema_actor_info (cai_name,cai_country)
+        values (#{cai_name},#{cai_country});
+    </insert>
+    <insert id="insertActorImages">
+        insert into cinema_actor_photo (cap_cai_seq,cap_file_name)
+        values 
+        <foreach collection="list" item="item" separator=",">
+        (#{item.cap_cai_seq}, #{item.cap_file_name})
+        </foreach>
+    </insert>
+    <select id="selectActorRoleCntInfo" resultType="com.greenart.movie_admin.data.movie.MovieInfoVO">
+        select mi_seq, mi_title, mi_country, mi_year,
+	        (
+	        	select count(*) from movie_actor_casting_info
+	        	where maci_mi_seq = mi_seq
+	        ) as actor_count
+            from movie_info
+            where mi_title like '%${keyword}%'
+            <if test="country != null">
+                and mi_country = #{country}
+            </if>
+            order by mi_opening_dt desc
+            limit 10 offset #{offset}
+    </select>
+    <select id="selectActorRoleCntInfoPageCount" resultType="java.lang.Integer">
+            select ceil(count(*)/10)
+            from movie_info
+            where mi_title like '%${keyword}%'
+            <if test="country != null">
+                and mi_country = #{country}
+            </if>
+    </select>
+    <select id="selectActorRoleInfo" resultType="com.greenart.movie_admin.data.actor.ActorRoleInfoVO">
+        select a.*, b.cai_name, b.cai_country, c.cap_file_name  from 
+            movie_actor_casting_info a inner join cinema_actor_info b
+            on a.maci_cai_seq = b.cai_seq
+            inner join cinema_actor_photo c 
+            on b.cai_seq = c.cap_cai_seq 
+            where a.maci_mi_seq = #{seq}
     </select>
     <insert id="insertActorRoleInfo">
-        INSERT INTO movie_actor_casting_info
-        (maci_cai_seq, maci_mi_seq, maci_casting_name, maci_role)
-        VALUES(#{maci_cai_seq}, #{maci_mi_seq}, #{maci_casting_name}, #{maci_role});
+        insert into movie_actor_casting_info
+        (maci_cai_seq,maci_mi_seq,maci_casting_name,maci_role)
+        values
+        (#{maci_cai_seq},#{maci_mi_seq},#{maci_casting_name},#{maci_role})
     </insert>
-    <delete id="deleteActorRoleInfoBySeq">
+    <delete id="deleteActorRoleInfoByseq">
         delete from movie_actor_casting_info where maci_seq = #{seq}
     </delete>
     <update id="updateActorRoleInfo">
-        UPDATE movie_actor_casting_info
-        SET
-            maci_casting_name=#{maci_casting_name}, maci_role=#{maci_role}
-        WHERE
+        update movie_actor_casting_info
+        set
+            maci_casting_name= #{maci_casting_name} , maci_role = #{maci_role}
+        where
             maci_seq=#{maci_seq}
     </update>
 </mapper>

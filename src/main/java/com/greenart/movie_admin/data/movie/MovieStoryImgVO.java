@@ -6,6 +6,6 @@ import lombok.Data;
 public class MovieStoryImgVO {
     private Integer msi_seq;
     private Integer msi_mi_seq;
-    private String msi_order;
-    private Integer msi_file_name;
+    private Integer msi_order;
+    private String msi_file_name;
 }

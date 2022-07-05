@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greenart.movie_admin.mapper.AccountMapper">
+    <select id="selectAllAdminAccount" resultType="com.greenart.movie_admin.data.account.AdminAccountInfoVO">
+            SELECT aai_seq, aai_id, aai_name, aai_role
+            FROM admin_account_info
+            WHERE aai_id like '%${keyword}%'
+    </select>
+    <select id="selectAdminAccountInfoCnt" resultType="java.lang.Integer">
+        select count(*) from admin_account_info where aai_id like '%${keyword}%'
+    </select>
+    <select id="selectAdminAccountPageCnt" resultType="java.lang.Integer">
+        select ceil(count(*)/10) from admin_account_info where aai_id like '%${keyword}%'
+    </select>
+    <insert id="insertAdminAccount">
+        INSERT INTO admin_account_info
+            (aai_id, aai_pwd, aai_name, aai_role)
+        VALUES
+            (#{aai_id},#{aai_pwd},#{aai_name},#{aai_role});
+    </insert>
+    <update id="updateAdminAccount">
+        update admin_account_info
+        set 
+            aai_pwd = #{aai_pwd} aai_name = #{aai_name} aai_role = #{aai_role} 
+        where
+            aai_seq = #{seq}
+    </update>
+    <delete id="deleteAdminAccount">
+        delete from admin_account_info where aai_seq = #{seq}
+    </delete>
+    <select id="selectAdminBySeq" resultType="com.greenart.movie_admin.data.account.AdminAccountInfoVO">
+        select aai_seq, aai_id, aai_name, aai_role from admin_account_info where aai_seq =#{seq}
+    </select>
+</mapper>

@@ -1,10 +1,11 @@
-<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/includes/header.jsp"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Document</title>
     <script src="/assets/js/actor/movie_role.js"></script>
     <link rel="stylesheet" href="/assets/css/actor/movie_role.css">
 </head>
@@ -35,10 +36,10 @@
                 <div class="actor_role_list">
                     <h2></h2>
                     <div class="actors"></div>
-                </div>  
+                </div>
             </div>
         </div>
-        <div class="actor_add_popup" style="display: none; border: 1px solid #000;">
+        <div class="actor_add_popup" style="display:none; border:1px solid #000">
             <div class="actor_add_form">
                 <p>배우</p>
                 <input type="text" id="actor_name">
@@ -53,7 +54,7 @@
                 <button id="actor_role_cancel">닫기</button>
             </div>
         </div>
-        <div class="actor_modify_popup" style="display: none; border: 1px solid #000;">
+        <div class="actor_modify_popup" style="display:none; border:1px solid #000">
             <div class="actor_modify_form">
                 <p>배우</p>
                 <input type="text" id="actor_mod_name">
@@ -68,22 +69,22 @@
                 <button id="actor_mod_role_cancel">닫기</button>
             </div>
         </div>
-        <div class="actor_search_popup" style="display: none; border: 1px solid #000;">
+        <div class="actor_search_popup" style="display:none; border:1px solid #000">
             <div class="actor_search_form">
-                <h2>배우검색</h2>
+                <h2>배우 검색</h2>
                 <input type="text" id="actor_search_keyword">
                 <button id="actor_search_button">검색</button>
                 <div class="actor_search_list">
                     <table>
                         <thead>
                             <tr>
-                                <td>사진</td><td>이름</td><td>국적</td>
+                                <td>사진</td><td>이름</td><td>국적</td><td></td>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>
-                                    <img src="http://placekitten.com/80/60">
+                                    <img src="http://placekitten.com/60/80">
                                 </td>
                                 <td>배우 이름</td>
                                 <td>배우 국적</td>
@@ -95,10 +96,13 @@
                     </table>
                 </div>
                 <div class="actor_search_pager_area">
-                    
+
                 </div>
             </div>
         </div>
+
+
+
         <div class="pager_area">
             <c:forEach begin="1" end="${pageCount}" var="i">
                 <c:if test="${country != null}">
@@ -109,6 +113,6 @@
                 </c:if>
             </c:forEach>
         </div>
-    </main>    
+    </main>
 </body>
 </html>

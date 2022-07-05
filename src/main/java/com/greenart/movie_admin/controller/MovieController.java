@@ -18,41 +18,40 @@ public class MovieController {
     public String getMovieGenre(Model model, @RequestParam @Nullable Integer page) {
         if(page == null) page = 1;
         model.addAttribute("page", page);
-        model.addAttribute("genreList", movie_mapper.getGenreList((page-1)*20));
+        model.addAttribute("genreList", movie_mapper.getGenreList((page-1)*21));
         model.addAttribute("pageCount", movie_mapper.getGenrePageCnt());
         return "/movie/genre";
     }
     @GetMapping("/list")
-    public String getMovieList(Model model, @RequestParam @Nullable String keyword,
-    @RequestParam @Nullable Integer page, @RequestParam @Nullable String country
+    public String getMovieList(Model model, 
+    @RequestParam @Nullable String keyword,
+    @RequestParam @Nullable Integer page,
+    @RequestParam @Nullable String country
     ) {
         model.addAttribute("keyword", keyword);
         model.addAttribute("country", country);
         if(page == null) page = 1;
-        model.addAttribute("page, page");
-
-        model.addAttribute("list", movie_mapper.selectMovieList(keyword, (page-1)*10, country));
-        model.addAttribute("pageCount", movie_mapper.selectMoviePageCnt(keyword,country));
-        return "/movie/list";
+        model.addAttribute("page", page);
+        model.addAttribute("list", movie_mapper.selectAllMovieInfo(keyword,(page-1)*10, country));
+        model.addAttribute("pageCount", movie_mapper.selectMoviePageCnt(keyword, country));
+        return "movie/list";
     }
     @GetMapping("/add")
     public String getMovieAdd(Model model) {
         model.addAttribute("mode", "add");
         model.addAttribute("genreList", movie_mapper.getGenreList(null));
-        return "/movie/form";
+        return "movie/form";
     }
     @GetMapping("/detail")
-    public String getMovieDetail(Model model, @RequestParam Integer movie_no) {
+    public String getMovieDetail(Model model,@RequestParam Integer movie_no) {
         model.addAttribute("mode", "modify");
         model.addAttribute("genreList", movie_mapper.getGenreList(null));
-        
+
         model.addAttribute("movie_no", movie_no);
         model.addAttribute("movieInfo", movie_mapper.selectMovieInfoBySeq(movie_no));
         model.addAttribute("imgList", movie_mapper.selectMovieImagesBySeq(movie_no));
-        model.addAttribute("videoList", movie_mapper.selectMovieTrailerVideoBySeq(movie_no));
-        
+        model.addAttribute("videoList", movie_mapper.selectMovieTrailerVideosBySeq(movie_no));
         model.addAttribute("descList", movie_mapper.selectMovieDescriptionBySeq(movie_no));
-
-        return "/movie/detail";
+        return "movie/detail";
     }
 }

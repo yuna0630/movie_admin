@@ -7,8 +7,5 @@ public class CinemaActorListVO {
     private Integer cai_seq;
     private String cai_name;
     private String cai_country;
-
     private String photo;
-
-    
 }

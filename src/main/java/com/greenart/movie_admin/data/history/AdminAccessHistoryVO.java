@@ -3,6 +3,7 @@ package com.greenart.movie_admin.data.history;
 import java.util.Date;
 
 import lombok.Data;
+
 @Data
 public class AdminAccessHistoryVO {
     private Integer aah_seq;
@@ -11,5 +12,4 @@ public class AdminAccessHistoryVO {
     private Date aah_start;
     private Date aah_end;
     private String aah_url;
-    
 }

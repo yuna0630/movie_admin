@@ -9,5 +9,4 @@ public class MovieTrailerRequest {
     private String ext;
     private Long fileSize;
     private String originFileName;
-    
 }
