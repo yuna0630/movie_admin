@@ -1,8 +1,7 @@
-<%@page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/includes/header.jsp"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
@@ -45,7 +44,7 @@
                 </tr>
             </thead>
             <tbody>
-                <c:if test="${list.size() == 0}">
+                <c:if test="${list.size()==0}">
                     <tr>
                         <td colspan="10">
                             <c:if test="${keyword != null}">검색어 "${keyword}" 에 해당하는</c:if>

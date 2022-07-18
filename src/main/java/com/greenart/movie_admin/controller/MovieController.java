@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.greenart.movie_admin.data.movie.MovieInfoVO;
 import com.greenart.movie_admin.mapper.MovieMapper;
 
 @Controller
@@ -15,35 +16,34 @@ import com.greenart.movie_admin.mapper.MovieMapper;
 public class MovieController {
     @Autowired MovieMapper movie_mapper;
     @GetMapping("/genre")
-    public String getMovieGenre(Model model, @RequestParam @Nullable Integer page) {
+    public String getMoiveGenre (Model model, @RequestParam @Nullable Integer page) {
         if(page == null) page = 1;
         model.addAttribute("page", page);
-        model.addAttribute("genreList", movie_mapper.getGenreList((page-1)*21));
+        model.addAttribute("genreList", movie_mapper.getGenreList((page-1)*20));
         model.addAttribute("pageCount", movie_mapper.getGenrePageCnt());
         return "/movie/genre";
     }
     @GetMapping("/list")
-    public String getMovieList(Model model, 
-    @RequestParam @Nullable String keyword,
-    @RequestParam @Nullable Integer page,
-    @RequestParam @Nullable String country
-    ) {
+    public String getMovieList(Model model, @RequestParam @Nullable String keyword, 
+    @RequestParam @Nullable Integer page, @RequestParam @Nullable String country) {
+
         model.addAttribute("keyword", keyword);
         model.addAttribute("country", country);
-        if(page == null) page = 1;
+        if(page == null) page =1;
         model.addAttribute("page", page);
-        model.addAttribute("list", movie_mapper.selectAllMovieInfo(keyword,(page-1)*10, country));
+        model.addAttribute("list", movie_mapper.selectMovieList(keyword, (page-1)*10, country));
         model.addAttribute("pageCount", movie_mapper.selectMoviePageCnt(keyword, country));
-        return "movie/list";
+
+        return "/movie/list";
     }
     @GetMapping("/add")
     public String getMovieAdd(Model model) {
         model.addAttribute("mode", "add");
         model.addAttribute("genreList", movie_mapper.getGenreList(null));
-        return "movie/form";
+        return "/movie/form";
     }
     @GetMapping("/detail")
-    public String getMovieDetail(Model model,@RequestParam Integer movie_no) {
+    public String getMovieDetail(Model model, @RequestParam Integer movie_no) {
         model.addAttribute("mode", "modify");
         model.addAttribute("genreList", movie_mapper.getGenreList(null));
 
@@ -51,7 +51,10 @@ public class MovieController {
         model.addAttribute("movieInfo", movie_mapper.selectMovieInfoBySeq(movie_no));
         model.addAttribute("imgList", movie_mapper.selectMovieImagesBySeq(movie_no));
         model.addAttribute("videoList", movie_mapper.selectMovieTrailerVideosBySeq(movie_no));
-        model.addAttribute("descList", movie_mapper.selectMovieDescriptionBySeq(movie_no));
-        return "movie/detail";
+
+        model.addAttribute("descList", movie_mapper.selectMovieDescriptionsBySeq(movie_no));
+
+        return "/movie/detail";
     }
 }
+ 

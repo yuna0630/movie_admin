@@ -1,8 +1,8 @@
-<%@page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/includes/header.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,6 +18,7 @@
     <script src="/assets/js/movie/genre.js"></script>
     <link rel="stylesheet" href="/assets/css/movie/genre.css">
 </head>
+
 <body>
     <main>
         <h1>장르 정보 관리</h1>
@@ -33,7 +34,7 @@
                     <div class="genre_item">
                         <p class="name">${item.genre_name}</p>
                         <p class="count">
-                            <b>${item.genre_count}</b>
+                            <b>${item.genre_count} </b>
                             <span>작품</span>
                         </p>
                         <button class="modify" data-seq="${item.genre_seq}">수정</button>
@@ -63,4 +64,5 @@
         </div>
     </main>
 </body>
+
 </html>

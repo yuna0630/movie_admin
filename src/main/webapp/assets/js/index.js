@@ -1,15 +1,15 @@
-$(function(){
+$(function (){
     $("#login_btn").click(function(){
         if(isEmpty($("#user_id").val())) {
             $("#user_id+.error").css("display", "block");
         }
-        else {
+        else{
             $("#user_id+.error").css("display", "");
         }
         if(isEmpty($("#user_pwd").val())) {
             $("#user_pwd+.error").css("display", "block");
         }
-        else {
+        else{
             $("#user_pwd+.error").css("display", "");
         }
         let data = {
@@ -25,7 +25,7 @@ $(function(){
                 console.log(r);
                 alert(r.message);
                 if(r.status) {
-                    location.href = "/summary";
+                    location.href = "/summary"
                 }
             }
         })

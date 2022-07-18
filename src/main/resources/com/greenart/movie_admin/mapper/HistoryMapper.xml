@@ -2,12 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.greenart.movie_admin.mapper.HistoryMapper">
-    <insert id="insertAdminHistory">
-        INSERT INTO admin_access_history
-            (aah_aai_seq, aah_ip, aah_start, aah_url)
-        VALUES
-            (#{aah_aai_seq}, #{aah_ip}, #{aah_start}, #{aah_url})
-    </insert>
+<insert id="insertAdminHistory">
+    insert into admin_access_history(aah_aai_seq, aah_ip, aah_start, aah_url)
+    values(#{aah_aai_seq}, #{aah_ip}, #{aah_start}, #{aah_url})
+</insert>
 </mapper>
-
-

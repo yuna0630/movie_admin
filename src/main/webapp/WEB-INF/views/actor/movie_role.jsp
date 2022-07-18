@@ -1,14 +1,17 @@
-<%@page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/includes/header.jsp"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="/assets/js/actor/movie_role.js"></script>
     <link rel="stylesheet" href="/assets/css/actor/movie_role.css">
 </head>
+
 <body>
     <main>
         <div class="actor_role_list_area">
@@ -20,12 +23,12 @@
                     </div>
                     <h2>${item.mi_title}</h2>
                     <p>
-                        <span>등록 배우 : </span>
+                        <span>등록배우 : </span>
                         <span class="actor_count">${item.actor_count}</span>
                     </p>
-                    <div class="button_area">
-                        <button class="modify" data-seq="${item.mi_seq}" data-title="${item.mi_title}">배역 정보</button>
-                    </div>
+                </div>
+                <div class="button_area">
+                    <button class="modify" data-seq="${item.mi_seq}" data-title="${item.mi_title}">배역 정보 수정</button>
                 </div>
             </c:forEach>
         </div>
@@ -96,12 +99,9 @@
                     </table>
                 </div>
                 <div class="actor_search_pager_area">
-
                 </div>
             </div>
         </div>
-
-
 
         <div class="pager_area">
             <c:forEach begin="1" end="${pageCount}" var="i">
@@ -115,4 +115,5 @@
         </div>
     </main>
 </body>
+
 </html>

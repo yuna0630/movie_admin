@@ -4,25 +4,26 @@ let movie_trailer_list = new Array();
 
 $(function(){
     $("#genre_info").val(genre_no).prop("selected", true);
-    $("#viewing_age").val(viewing_age).prop("selected", true);
-    $("#movie_status").val(movie_status).prop("selected", true);
-
-    $("select, input, button, textarea").prop("disabled", true);
-    $("#edit_basic, #movie_image_edit, #trailer_edit, #story_edit").prop("disabled", false);
+    $("#viewing_age").val(viewing_age).prop("selected", true);    
+    $("#movie_status").val(movie_status).prop("selected", true);    
+    
+    $("select, input, button, textarea").prop("disabled",true);
+    $("#edit_basic, #movie_image_edit, #trailer_edit, #story_edit").prop("disabled", false)
 
     $("#edit_basic").click(function(){
         $(".basic_info select, .basic_info input, .basic_info textarea").prop("disabled", false);
-    })
-
+    })    
     $("#movie_image_edit").click(function(){
-        $(".movie_image_area select, .movie_image_area input ,.movie_image_area button, .movie_image_area textarea").prop("disabled", false);
+        $(".movie_image_area select, .movie_image_area input, .movie_image_area button, .movie_image_area textarea").prop("disabled", false);
     })
     $("#trailer_edit").click(function(){
-        $(".movie_trailer_area select, .movie_trailer_area input ,.movie_trailer_area button, .movie_trailer_area textarea").prop("disabled", false);
-    })
+        $(".movie_trailer_area select, .movie_trailer_area input, .movie_trailer_area button, .movie_trailer_area textarea").prop("disabled", false);
+    })    
     $("#story_edit").click(function(){
-        $(".movie_description_area select, .movie_description_area input ,.movie_description_area button, .movie_description_area textarea").prop("disabled", false);
+        $(".movie_description_area select, .movie_description_area input, .movie_description_area button, .movie_description_area textarea").prop("disabled", false);
     })
+
+
 
     $("#movie_img_select").change(function(){
         let form = $("#movie_img_form");
@@ -123,19 +124,18 @@ $(function(){
             success:function(result) {
                 console.log(result);
                 
-                let trailerData = {
+                let trailerData= {
                     tvi_mi_seq:movie_seq,
                     tvi_order:0,
                     tvi_file_name:result.file
                 }
-
                 $.ajax({
                     url:"/api/movie/add/trailer",
                     type:"put",
                     contentType:"application/json",
                     data:JSON.stringify(trailerData),
                     success:function(r) {
-                        console.log(r);
+                        
                         let trailer_order = $("#trailer_file_table tbody tr").length+1;
                         let split = $("#trailer_select").val().split("\\");
                         split = split[split.length-1].split(".");
@@ -150,19 +150,18 @@ $(function(){
                             }
                         );
                         let tag = 
-                            '<tr>'+
-                                '<td>'+($("#trailer_file_table tbody tr").length+1)+'</td>'+
-                                '<td>'+split[0]+'</td>'+
-                                '<td>'+result.ext+'</td>'+
-                                '<td>'+result.fileSize.toLocaleString()+'Bytes</td>'+
-                                '<td>'+
-                                    '<button class="delete_trailer" onclick="deleteTrailer(\''+result.file+'\', '+r.seq+')">삭제</button>'+
-                                '</td>'+
-                            '</tr>';
+                        '<tr>'+
+                            '<td>'+($("#trailer_file_table tbody tr").length+1)+'</td>'+
+                            '<td>'+split[0]+'</td>'+
+                            '<td>'+result.ext+'</td>'+
+                            '<td>'+result.fileSize.toLocaleString()+'Bytes</td>'+
+                            '<td>'+
+                                '<button class="delete_trailer" onclick="deleteTrailer(\''+result.file+'\', '+r.seq+')">삭제</button>'+
+                            '</td>'+
+                        '</tr>';
                         $("#trailer_file_table tbody").append(tag);
                     }
                 })
-                
             }
         })
     })
@@ -205,11 +204,14 @@ $(function(){
             data:JSON.stringify(data),
             success:function(r) {
                 alert(r.message);
-                $(".basic_info select, .basic_info input, #edit_basic_save, .basic_info textarea").prop("disabled", true);
+                $("#edit_basic").click(function(){
+                    $(".basic_info select, .basic_info input, .basic_info textarea").prop("disabled", false);
+                })
             }
         })
+
     })
-    $(".basic_info table select").change(function(){
+    $(".basic_info table input, .basic_info table select").change(function(){
         $("#edit_basic_save").prop("disabled", false);
     })
     $(".basic_info table input").keyup(function(){
@@ -217,9 +219,11 @@ $(function(){
     })
 })
 function deleteTrailer(filename, seq) {
+    
     if(!confirm("해당 트레일러 영상을 삭제하시겠습니까?\n(❗주의 : 삭제된 데이터는 되돌릴 수 없습니다.)")){
         return;
     }
+
     $.ajax({
         url:"/movies/delete/movie_trailer/"+filename,
         type:"delete",
@@ -250,7 +254,6 @@ function deleteTrailer(filename, seq) {
             })
         }
     });
-
     
 }
 function deleteImg(filename, seq){
@@ -261,7 +264,7 @@ function deleteImg(filename, seq){
         url:"/images/delete/movie/"+filename,
         type:"delete",
         success:function(result) {
-            // alert(result.message);
+            alert(result.message);
             if(result.status) {
                 movie_imgs = movie_imgs.filter((img)=>filename != img.filename);
                 $(".movie_image_list").html("");

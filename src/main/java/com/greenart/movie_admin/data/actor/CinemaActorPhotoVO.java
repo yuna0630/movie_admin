@@ -7,4 +7,5 @@ public class CinemaActorPhotoVO {
     private Integer cap_seq;
     private Integer cap_cai_seq;
     private String cap_file_name;
+
 }

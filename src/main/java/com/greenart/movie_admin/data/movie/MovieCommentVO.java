@@ -1,4 +1,4 @@
-package com.greenart.movie_admin.data.comment;
+package com.greenart.movie_admin.data.movie;
 
 import java.util.Date;
 

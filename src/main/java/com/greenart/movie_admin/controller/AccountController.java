@@ -18,17 +18,16 @@ public class AccountController {
     @Autowired AccountMapper account_mapper;
     @GetMapping("/list")
     public String getAccountList(
-        Model model, @RequestParam @Nullable String keyword, @RequestParam @Nullable Integer page
-        ) {
-        if(page == null) page= 1;
-        
-        model.addAttribute("keyword",keyword);
-        model.addAttribute("page", page);
-        model.addAttribute("list", account_mapper.selectAllAdminAccount(keyword, (page-1)*10));
+        Model model, @RequestParam @Nullable String keyword, @RequestParam @Nullable Integer page){
+
+        if(page == null) page = 1;
+
+        model.addAttribute("list", account_mapper.selectAdminAccountList(keyword, (page-1)*10));
         model.addAttribute("pageCount", account_mapper.selectAdminAccountPageCnt(keyword));
+
         return "/account/list";
     }
-    @GetMapping("/logout") 
+    @GetMapping("/logout")
     public String getAccountLogout(HttpSession session) {
         session.invalidate();
         return "redirect:/";

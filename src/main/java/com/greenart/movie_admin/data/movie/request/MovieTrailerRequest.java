@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class MovieTrailerRequest {
-    private Integer order;
-    private String file;
-    private String ext;
-    private Long fileSize;
-    private String originFileName;
+private Integer order;
+private String file;
+private String ext;
+private Long fileSize;
+private String originFileName;
 }

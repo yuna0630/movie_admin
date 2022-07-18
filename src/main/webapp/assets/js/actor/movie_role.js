@@ -1,8 +1,8 @@
 let actor_keyword = '';
 
 $(function(){
-    $("#actor_role_list_close").click(function(){ $(".actor_role_list_popup").hide(); })
-    $(".modify").click(function(){
+    $(".modify").click(function (){
+        $("#actor_role_list_close").click(function(){$(".actor_role_list_popup").hide();})
         $(".actor_role_list_popup").show();
         let seq = $(this).attr("data-seq");
         let title = $(this).attr("data-title");
@@ -17,22 +17,21 @@ $(function(){
                 for(let i=0; i<r.list.length; i++) {
                     let tag = 
                     '<div class="actor_info">'+
-                        '<img src="/images/actor/'+r.list[i].cap_file_name+'">'+
-                        '<p>'+(r.list[i].maci_role==1?"주연":"조연")+'</p>'+
+                    ' <img src="/images/actor/'+r.list[i].cap_file_name+'">'+
+                    ' <p>'+(r.list[i].maci_role ==1?"주연":"조연")+'</p>'+
                         '<p>'+
-                            '<span>'+r.list[i].maci_casting_name+' 역</span><span class="sep">|</span><span>'+r.list[i].cai_name+'</span>'+
-                        '</p>'+
-                        '<button class="actor_role_modify" data-role="'+r.list[i].maci_role+'" data-casting-name="'+r.list[i].maci_casting_name+'" data-actor-name="'+r.list[i].cai_name+'" data-seq="'+r.list[i].maci_seq+'">수정</button>'+
-                        '<button class="actor_role_delete" data-seq="'+r.list[i].maci_seq+'">삭제</button>'+
+                        '<span>'+r.list[i].maci_casting_name+'역</span><span class="sep">|</span><span>'+r.list[i].cai_name+'</span>'+
+                    '</p>'+
+                    '<button class="actor_role_modify" data-role="'+r.list[i].maci_role+'" data-casting-name="'+r.list[i].maci_casting_name+'" data-actor-name="'+r.list[i].cai_name+'" data-seq="'+r.list[i].maci_seq+'">수정</button>'+
+                    '<button class="actor_role_delete" data-seq="'+r.list[i].maci_seq+'">삭제</button>'+
                     '</div>';
                     $(".actors").append(tag);
                 }
-                $(".actor_role_modify").click(function(){
-                    let role = $(this).attr("data-role");
+                $(".actor_role_modify").click(function (){
+                    let role  = $(this).attr("data-role");
                     let casting_name = $(this).attr("data-casting-name");
-                    let actor_name = $(this).attr("data-actor-name");
+                    let actor_name= $(this).attr("data-actor-name");
                     let seq = $(this).attr("data-seq");
-
                     $("#actor_mod_name").attr("data-seq", seq);
                     $("#actor_mod_name").val(actor_name);
                     $("#actor_mod_role_name").val(casting_name);
@@ -47,7 +46,7 @@ $(function(){
                     $.ajax({
                         url:"/api/actor/actor_role?seq="+seq,
                         type:"delete",
-                        success:function(r) {
+                        success:function(r){
                             alert(r.message);
                             location.reload();
                         }
@@ -69,14 +68,15 @@ $(function(){
     $("#actor_search_button").click(function(){
         actor_keyword = $("#actor_search_keyword").val();
         getActorList(actor_keyword, 1);
-    })
-    $("#actor_role_save").click(function(){
+    }) 
+    $("#actor_role_save").click(function (){
         let data = {
             maci_cai_seq:$("#actor_name").attr("data-seq"),
             maci_mi_seq:$(this).attr("data-seq"),
             maci_casting_name:$("#actor_role_name").val(),
             maci_role:$(".role_type:checked").val()
         }
+        console.log(JSON.stringify(data));
         $.ajax({
             url:"/api/actor/actor_role/add",
             type:"put",
@@ -91,20 +91,20 @@ $(function(){
     $("#actor_role_cancel").click(function(){
         if(!confirm("배역 정보 추가를 취소하시겠습니까?\n(입력된 정보는 저장되지 않습니다.)")) return;
         $(".actor_add_popup").hide();
-        // 입력내용 초기화.
         $("#actor_name").val("");
         $("#actor_name").attr("data-seq", null);
         $("#actor_role_name").val("");
         $("#role2").prop("checked", true);
+
     })
     $("#actor_mod_role_cancel").click(function(){
-        if(!confirm("배역 정보 수정을 취소하시겠습니까?\n(변경된 정보는 저장되지 않습니다.)")) return;
+        if(!confirm("배역 정보 추가를 취소하시겠습니까?\n(입력된 정보는 저장되지 않습니다.)")) return;
         $(".actor_modify_popup").hide();
-        $("#actor_mod_name").attr("data-seq", "");
         $("#actor_mod_name").val("");
+        $("#actor_mod_name").attr("data-seq", null);
         $("#actor_mod_role_name").val("");
-        $("#mod_role2").attr("checked", true);
-    });
+        $("#mod_role2").prop("checked", true);
+    })
     $("#actor_mod_role_save").click(function(){
         let data = {
             maci_seq:$("#actor_mod_name").attr("data-seq"),
@@ -121,15 +121,16 @@ $(function(){
                 location.reload();
             }
         })
+        console.log(JSON.stringify(data));
     })
 })
 function getActorList(keyword, page) {
     $.ajax({
         url:"/api/actor/actor_list?keyword="+keyword+"&page="+page,
         type:"get",
-        success:function(r){
+        success:function(r) {
             $(".actor_search_list tbody").html("");
-            for(let i=0; i<r.list.length; i++) {
+            for(let i=0; i<r.list.length; i++){
                 let tag = 
                 '<tr>'+
                     '<td>'+
@@ -143,26 +144,24 @@ function getActorList(keyword, page) {
                 '</tr>';
                 $(".actor_search_list tbody").append(tag);
             }
-
             $(".actor_search_pager_area").html("");
-            for(let i=0; i<r.pageCount; i++) {
+            for(let i=0; i<r.pageCount; i++){
                 let tag = '<button class="actor_pager">'+(i+1)+'</button>'
                 $(".actor_search_pager_area").append(tag);
-            }
 
+            }
             $(".actor_pager").click(function(){
                 let page = $(this).html();
                 getActorList(actor_keyword, page);
             })
-
-            $(".actor_select").click(function(){
-                let name = $(this).attr("data-name");
-                let seq = $(this).attr("data-seq");
+            $(".actor_select").click(function (){
+                let name= $(this).attr("data-name");
+                let seq= $(this).attr("data-seq");
                 $("#actor_name").val(name);
                 $("#actor_name").attr("data-seq", seq);
 
                 actor_keyword = "";
-                $("#actor_search_keyword").val("");
+                $(".actor_search_popup").val();
 
                 $(".actor_search_popup").hide();
             })

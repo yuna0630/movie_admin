@@ -18,6 +18,5 @@ public class MovieInfoVO {
 
     private String genre_name;
     private String poster_img;
-    
     private Integer actor_count;
 }

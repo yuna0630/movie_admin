@@ -1,7 +1,7 @@
 $(function(){
     $("#save").click(function(){
-        if(isEmpty($("#genre_name").val())) {
-            alert("장르명을 올바르게 입력해주세요");
+        if(isEmpty($("#genre_name").val())){
+            alert("장르명을 올바르게 입력해주세요.")
             return;
         }
 
@@ -11,7 +11,7 @@ $(function(){
             success:function(result) {
                 alert(result.message);
                 if(result.status)
-                    location.reload();
+                location.reload();
             }
         })
     })
@@ -38,7 +38,7 @@ $(function(){
             success:function(result) {
                 alert(result.message);
                 location.reload();
-            } 
+            }
         })
     })
     $("#update").click(function(){
@@ -52,8 +52,8 @@ $(function(){
                     location.reload();
             } 
         })
-    })
 
+    })
     $("#add").click(function(){
         $(".popup_title").html("장르 정보 추가")
         $(".insert_data_area").show();
@@ -61,11 +61,12 @@ $(function(){
         $("#update").hide();
     })
 
+
+
     $("#cancel").click(function(){
         if(!confirm("취소하시겠습니까?")) return;
         $(".insert_data_area").hide();
         $("#genre_name").val("");
         $(".before").html("");
     })
-
 })

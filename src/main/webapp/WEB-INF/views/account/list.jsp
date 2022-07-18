@@ -1,16 +1,18 @@
-<%@page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/includes/header.jsp"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="/assets/js/account/list.js"></script>
 </head>
 <body>
     <main>
         <div class="page_header">
+
             <h1>관리자 계정 관리</h1>
             <form action="/account/list">
                 <input type="text" name="keyword" placeholder="아이디 검색" value="${keyword}">
@@ -22,7 +24,7 @@
             <table>
                 <thead>
                     <tr>
-                        <td>순번</td><td>아이디</td><td>사용자명</td><td>권한등급</td><td></td>
+                        <td>순번</td><td>아이디</td><td>사용자명</td><td>권한등급</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -77,9 +79,9 @@
                             <td>관리자 유형</td>
                             <td>
                                 <select id="aai_role">
-                                    <option value="1">일반관리자</option>
-                                    <option value="2">전체관리자</option>
-                                    <option value="99">슈퍼유저</option>
+                                    <option value="1">일반 관리자</option>
+                                    <option value="2">전체 관리자</option>
+                                    <option value="99">슈퍼 유저</option>
                                 </select>
                             </td>
                         </tr>
@@ -120,9 +122,9 @@
                             <td>관리자 유형</td>
                             <td>
                                 <select id="mod_aai_role">
-                                    <option value="1">일반관리자</option>
-                                    <option value="2">전체관리자</option>
-                                    <option value="99">슈퍼유저</option>
+                                    <option value="1">일반 관리자</option>
+                                    <option value="2">전체 관리자</option>
+                                    <option value="99">슈퍼 유저</option>
                                 </select>
                             </td>
                         </tr>
